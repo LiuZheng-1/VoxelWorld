@@ -3,6 +3,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls"
 import { Water } from 'three/examples/jsm/objects/Water2';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
 import {skybox} from './skybox.js'
+import {WaterCube} from './water_cube'
 
 // // init
 var scene = new THREE.Scene( );
@@ -53,9 +54,6 @@ var MyResize = function ( )
 window.addEventListener( 'resize', MyResize);
 
 
-
-
-
 // water
 const water_params = {
     color: '#ffffff',
@@ -66,49 +64,53 @@ const water_params = {
     cube_opacity:0.5,
 };
 
-var water_cube = new THREE.Object3D();
-
-const waterGeometry = new THREE.PlaneGeometry( 1, 1 );
-var water = new Water( waterGeometry, {
-    color: water_params.color,
-    scale: water_params.scale,
-    flowDirection: new THREE.Vector2( water_params.flowX, water_params.flowY ),
-    textureWidth: 1024,
-    textureHeight: 1024
-} );
-
-water.position.y = 0.5;
-water.rotation.x = Math.PI * - 0.5;
-water_cube.add( water );
-
-var cube_geometry = new THREE.BoxGeometry(1,0.99,1);
-var cube_material = new THREE.MeshBasicMaterial( { 
-    color: water_params.cube_color,
-    transparent:true,
-    opacity:water_params.cube_opacity
-} );
-var cube = new THREE.Mesh( cube_geometry, cube_material );
-water_cube.add( cube );
 
 
+// var water_cube = new THREE.Object3D();
+
+// const waterGeometry = new THREE.PlaneGeometry( 1, 1 );
+// var water = new Water( waterGeometry, {
+//     color: water_params.color,
+//     scale: water_params.scale,
+//     flowDirection: new THREE.Vector2( water_params.flowX, water_params.flowY ),
+//     textureWidth: 1024,
+//     textureHeight: 1024
+// } );
+
+// water.position.y = 0.5;
+// water.rotation.x = Math.PI * - 0.5;
+// water_cube.add( water );
+
+// var cube_geometry = new THREE.BoxGeometry(1,0.99,1);
+// var cube_material = new THREE.MeshBasicMaterial( { 
+//     color: water_params.cube_color,
+//     transparent:true,
+//     opacity:water_params.cube_opacity
+// } );
+// var cube = new THREE.Mesh( cube_geometry, cube_material );
+// water_cube.add( cube );
+
+var water_cube = WaterCube(water_params);
 scene.add(water_cube)
+var water_cube_1 = WaterCube(water_params,1,0);
+scene.add(water_cube_1)
+
 scene.background = skybox();
 
-gui.addColor( water_params, 'color' ).onChange( function ( value ) {
-    water.material.uniforms[ 'color' ].value.set( value );
-} );
-gui.add( water_params, 'scale', 0.01, 2 ).step( 0.01 ).onChange( function ( value ) {
-    water.material.uniforms[ 'config' ].value.w = value;
-} );
-gui.addColor( water_params, 'cube_color' ).onChange( function ( value ) {
-    cube.material.color.set(value);
-    console.log(value)
-} );
-gui.add( water_params, 'cube_opacity', 0,1 ).step( 0.01 ).onChange( function ( value ) {
-    cube.material.opacity = value;
-} );
-gui.open();
-
+// gui.addColor( water_params, 'color' ).onChange( function ( value ) {
+//     water.material.uniforms[ 'color' ].value.set( value );
+// } );
+// gui.add( water_params, 'scale', 0.01, 2 ).step( 0.01 ).onChange( function ( value ) {
+//     water.material.uniforms[ 'config' ].value.w = value;
+// } );
+// gui.addColor( water_params, 'cube_color' ).onChange( function ( value ) {
+//     cube.material.color.set(value);
+//     console.log(value)
+// } );
+// gui.add( water_params, 'cube_opacity', 0,1 ).step( 0.01 ).onChange( function ( value ) {
+//     cube.material.opacity = value;
+// } );
+// gui.open();
 
 
 var groundGeometry = new THREE.PlaneGeometry( 20, 20 );
