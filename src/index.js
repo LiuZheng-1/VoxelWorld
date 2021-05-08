@@ -11,6 +11,7 @@ var mouse = new THREE.Vector2();
 var objects = [];
 var isShiftDown = false
 var cubeGeo, cubeMaterial
+var cube
 
 
 var createWater = function () {
@@ -20,7 +21,6 @@ var createWater = function () {
     scene.add(rollOverMesh);
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
     cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
-
 }
 
 // // init
@@ -194,22 +194,18 @@ function onDocumentMouseMove(event) {
 }
 
 function onDocumentMouseDown(event) {
-    console.log(11111);
     event.preventDefault();
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0) {
         var intersect = intersects[0];
-        // delete cube
         if (isShiftDown) {
-            if (intersect.object != plane) {
+            if (intersect.object != ground) {
+                console.log(1111);
                 scene.remove(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
-
             }
-            // create cube
-
         } else {
             var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
@@ -225,6 +221,19 @@ function onDocumentMouseDown(event) {
 
 }
 
+function onDocumentKeyDown(event) {
+    switch (event.keyCode) {
+        case 16: isShiftDown = true; break;
+
+    }
+}
+function onDocumentKeyUp(event) {
+    switch (event.keyCode) {
+        case 16: isShiftDown = false; break;
+
+    }
+}
+
 function render() {
 
     renderer.render(scene, camera);
@@ -235,4 +244,6 @@ function render() {
 
 document.addEventListener('mousemove', onDocumentMouseMove, false);//鼠标移动事件
 document.addEventListener('mousedown', onDocumentMouseDown, false);//鼠标点击事件
+document.addEventListener('keydown', onDocumentKeyDown, false);//对shift按键的控制
+document.addEventListener('keyup', onDocumentKeyUp, false);//对shift按键的控制
 console.log("done");

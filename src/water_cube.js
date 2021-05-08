@@ -6,11 +6,11 @@ export function WaterCube(water_params, x_pos = 0, y_pos = 0) {
     // water_cube.position.x = x_pos
     // water_cube.position.y = y_pos;
 
-    const waterGeometry = new THREE.PlaneGeometry(1, 1);
+    const waterGeometry = new THREE.PlaneGeometry(50, 50);
     var water = new Water(waterGeometry, {
         color: water_params.color,
         scale: water_params.scale,
-        // flowDirection: new THREE.Vector2(water_params.flowX, water_params.flowY),
+        flowDirection: new THREE.Vector2(water_params.flowX, water_params.flowY),
         textureWidth: 1024,
         textureHeight: 1024
     });
@@ -18,7 +18,7 @@ export function WaterCube(water_params, x_pos = 0, y_pos = 0) {
     water.rotation.x = Math.PI * - 0.5;
     water_cube.add(water);
 
-    var cube_geometry = new THREE.BoxGeometry(1, 1, 1);
+    var cube_geometry = new THREE.BoxGeometry(50, 50, 50);
     var cube_material = new THREE.MeshBasicMaterial({
         color: water_params.cube_color,
         transparent: true,
