@@ -45,6 +45,7 @@ var createWater = function () {
     rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
     rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
     rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
+    rollOverMesh.castShadow = true;//shadow
     scene.add(rollOverMesh);
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
     cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
@@ -79,7 +80,7 @@ var controls = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.setClearColor(0xCCCCCC, 1.0);
-
+renderer.shadowMap.enabled = true;//shadow start
 
 var clock = new THREE.Clock();
 
@@ -96,6 +97,7 @@ camera.add(cameralight);
 scene.add(camera);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
 directionalLight.position.set(- 1, 1, 1);
+directionalLight.castShadow = true; //shadow
 scene.add(directionalLight);
 
 
@@ -150,7 +152,7 @@ const water_params = {
 // water_cube.add( water );
 
 // var cube_geometry = new THREE.BoxGeometry(1,0.99,1);
-// var cube_material = new THREE.MeshBasicMaterial( { 
+// var cube_material = new THREE.MeshBasicMaterial( {
 //     color: water_params.cube_color,
 //     transparent:true,
 //     opacity:water_params.cube_opacity
@@ -186,6 +188,7 @@ groundGeometry.name = 'PlaneBufferGeometry'
 var groundMaterial = new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0.4 });
 var ground = new THREE.Mesh(groundGeometry, groundMaterial);
 groundGeometry.rotateX(- Math.PI / 2);
+ground.receiveShadow = true;//shadow
 // groundMaterial.wireframe = true
 objects.push(ground);
 scene.add(ground)
