@@ -207,10 +207,11 @@ function onDocumentMouseDown(event) {
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
-            var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+            var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
             voxel.castShadow = true
+            console.log(voxel.position);
             scene.add(voxel);
             objects.push(voxel);
 
