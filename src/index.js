@@ -4,7 +4,7 @@ import { Water } from 'three/examples/jsm/objects/Water2';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
 import { skybox } from './skybox.js'
 import { WaterCube } from './water_cube'
-import { Mesh } from 'three';
+import { Mesh, Texture } from 'three';
 
 var rollOverGeo, rollOverMaterial, rollOverMesh
 var raycaster = new THREE.Raycaster();
@@ -41,13 +41,30 @@ var originCubePosition = [
     { x: -75, y: 25, z: -125 }
 ]
 
-var createWater = function () {
+var createPreview = function () {
     rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
     rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
     rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
     scene.add(rollOverMesh);
+}
+
+var createWater = function () {
+    createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
+    cubeMaterial = new THREE.MeshLambertMaterial( {map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') } );
+}
+
+var createGrass = function () {
+    createPreview();
+    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+    cubeMaterial = new THREE.MeshLambertMaterial( {map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') } );
+}
+
+var createBrick = function () {
+    createPreview();
+    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+    cubeMaterial = new THREE.MeshLambertMaterial( {map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') } );
+
 }
 
 // // init
@@ -67,6 +84,36 @@ waterElement.id = 'waterCube'
 waterElement.onclick = createWater
 console.log(waterElement);
 info.appendChild(waterElement);
+
+var info = document.createElement('div');
+document.body.appendChild(info)
+info.style.position = 'absolute';
+info.style.top = '70px';
+info.style.width = '200px';
+info.style.height = '50px'
+info.style.background = '#ccc'
+info.style.textAlign = 'center';
+info.style.zIndex = 99;
+var grassElement = document.createElement('button')
+grassElement.id = 'grassCube'
+grassElement.onclick = createGrass
+console.log(grassElement);
+info.appendChild(grassElement);
+
+var info = document.createElement('div');
+document.body.appendChild(info)
+info.style.position = 'absolute';
+info.style.top = '130px';
+info.style.width = '200px';
+info.style.height = '50px'
+info.style.background = '#ccc'
+info.style.textAlign = 'center';
+info.style.zIndex = 99;
+var brickElement = document.createElement('button')
+brickElement.id = 'mcGrassCube'
+brickElement.onclick = createBrick
+console.log(brickElement);
+info.appendChild(brickElement);
 
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);//设置透视投影的相机
 camera.position.set(500, 800, 1300);//设置相机坐标
@@ -245,7 +292,8 @@ function onDocumentMouseDown(event) {
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
-            var voxel = WaterCube(water_params);
+            var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
+            //var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
             voxel.castShadow = true
