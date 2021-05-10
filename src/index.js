@@ -98,15 +98,6 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
 directionalLight.position.set(- 1, 1, 1);
 scene.add(directionalLight);
 
-originCubePosition.forEach(position => {
-    var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
-    var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
-    var cube = new THREE.Mesh(cube_Geo, cube_Material);
-    cube.position.x = position.x
-    cube.position.y = position.y
-    cube.position.z = position.z
-    scene.add(cube)
-});
 
 
 //final update loop
@@ -198,6 +189,18 @@ groundGeometry.rotateX(- Math.PI / 2);
 // groundMaterial.wireframe = true
 objects.push(ground);
 scene.add(ground)
+
+originCubePosition.forEach(position => {
+    var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
+    var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
+    var cube = new THREE.Mesh(cube_Geo, cube_Material);
+    cube.position.x = position.x
+    cube.position.y = position.y
+    cube.position.z = position.z
+    objects.push(cube);
+
+    scene.add(cube)
+});
 // const textureLoader = new THREE.TextureLoader();
 // textureLoader.load('textures/Sand_01_basecolor.png', function (map) {
 //     map.wrapS = THREE.RepeatWrapping;
@@ -215,7 +218,6 @@ scene.add(ground)
 //     groundMaterial.normalMap = map;
 //     groundMaterial.needsUpdate = true;
 // })
-console.log(objects);
 function onDocumentMouseMove(event) {
     event.preventDefault();//取消事件的默认动作
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
@@ -239,7 +241,6 @@ function onDocumentMouseDown(event) {
         var intersect = intersects[0];
         if (isShiftDown) {
             if (intersect.object != ground) {
-                console.log(1111);
                 scene.remove(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
