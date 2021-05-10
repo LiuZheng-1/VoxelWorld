@@ -96,7 +96,7 @@ var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
 camera.add(cameralight);
 scene.add(camera);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-directionalLight.position.set(- 1, 1, 1);
+directionalLight.position.set(-40, 40, 20);
 directionalLight.castShadow = true; //shadow
 scene.add(directionalLight);
 
