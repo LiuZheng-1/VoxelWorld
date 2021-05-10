@@ -51,20 +51,28 @@ var createPreview = function () {
 var createWater = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial( {map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') } );
+    cubeMaterial = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') } );
 }
 
 var createGrass = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial( {map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') } );
+    cubeMaterial = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') } );
 }
 
 var createBrick = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial( {map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') } );
+    cubeMaterial = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') } );
 
+}
+//MC材质大门
+var createDoor = function () {
+    createPreview();
+    cubeGeo = new THREE.BoxGeometry(50, 50, 50); 
+    var texture = new THREE.TextureLoader().load( '../dist/textures/minecraft/door_spruce_lower.png' );
+    texture.magFilter = THREE.NearestFilter;//指定纹理的放大方式, nearestFilter最邻近过滤
+    cubeMaterial = new THREE.MeshLambertMaterial( { map: texture } );
 }
 
 // // init
@@ -114,6 +122,22 @@ brickElement.id = 'mcGrassCube'
 brickElement.onclick = createBrick
 console.log(brickElement);
 info.appendChild(brickElement);
+
+var info = document.createElement('div');
+document.body.appendChild(info)
+info.style.position = 'absolute';
+info.style.top = '190px';
+info.style.width = '200px';
+info.style.height = '50px'
+info.style.background = '#ccc'
+info.style.textAlign = 'center';
+info.style.zIndex = 99;
+var doorElement = document.createElement('button')
+doorElement.id = 'mcGrassCube'
+doorElement.onclick = createDoor
+console.log(doorElement);
+info.appendChild(doorElement);
+
 
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);//设置透视投影的相机
 camera.position.set(500, 800, 1300);//设置相机坐标
