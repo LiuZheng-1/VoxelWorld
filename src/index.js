@@ -4,6 +4,7 @@ import { Water } from 'three/examples/jsm/objects/Water2';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
 import { skybox } from './skybox.js'
 import { WaterCube } from './water_cube'
+import { Mesh } from 'three';
 
 var rollOverGeo, rollOverMaterial, rollOverMesh
 var raycaster = new THREE.Raycaster();
@@ -12,7 +13,33 @@ var objects = [];
 var isShiftDown = false
 var cubeGeo, cubeMaterial
 var cube
-
+var originCubePosition = [
+    { x: -275, y: 25, z: 25 },
+    { x: -125, y: 25, z: 75 },
+    { x: -125, y: 25, z: 175 },
+    { x: -325, y: 25, z: 175 },
+    { x: 75, y: 25, z: 125 },
+    { x: 25, y: 25, z: -25 },
+    { x: -125, y: 25, z: -125 },
+    { x: -25, y: 25, z: -175 },
+    { x: 75, y: 25, z: 275 },
+    { x: 25, y: 25, z: 175 },
+    { x: 25, y: 75, z: 175 },
+    { x: 25, y: 75, z: 225 },
+    { x: -25, y: 25, z: 225 },
+    { x: 175, y: 25, z: 275 },
+    { x: 225, y: 25, z: 175 },
+    { x: 225, y: 25, z: 75 },
+    { x: 325, y: 25, z: 175 },
+    { x: 175, y: 25, z: -275 },
+    { x: 125, y: 25, z: -125 },
+    { x: 125, y: 25, z: -25 },
+    { x: 225, y: 25, z: -125 },
+    { x: 25, y: 25, z: 25 },
+    { x: -75, y: 25, z: -25 },
+    { x: -125, y: 25, z: -25 },
+    { x: -75, y: 25, z: -125 }
+]
 
 var createWater = function () {
     rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
@@ -70,6 +97,16 @@ scene.add(camera);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
 directionalLight.position.set(- 1, 1, 1);
 scene.add(directionalLight);
+
+originCubePosition.forEach(position => {
+    var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
+    var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
+    var cube = new THREE.Mesh(cube_Geo, cube_Material);
+    cube.position.x = position.x
+    cube.position.y = position.y
+    cube.position.z = position.z
+    scene.add(cube)
+});
 
 
 //final update loop
@@ -211,11 +248,12 @@ function onDocumentMouseDown(event) {
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
             voxel.castShadow = true
-            console.log(voxel.position);
             scene.add(voxel);
             objects.push(voxel);
+            // originCubePosition.push(voxel.position)
 
         }
+        // console.log(originCubePosition);
         render();
 
     }
