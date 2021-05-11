@@ -13,35 +13,15 @@ var objects = [];
 var isShiftDown = false
 var cubeGeo, cubeMaterial
 var cube
-var originCubePosition = [
-    { x: -275, y: 25, z: 25 },
-    { x: -125, y: 25, z: 75 },
-    { x: -125, y: 25, z: 175 },
-    { x: -325, y: 25, z: 175 },
-    { x: 75, y: 25, z: 125 },
-    { x: 25, y: 25, z: -25 },
-    { x: -125, y: 25, z: -125 },
-    { x: -25, y: 25, z: -175 },
-    { x: 75, y: 25, z: 275 },
-    { x: 25, y: 25, z: 175 },
-    { x: 25, y: 75, z: 175 },
-    { x: 25, y: 75, z: 225 },
-    { x: -25, y: 25, z: 225 },
-    { x: 175, y: 25, z: 275 },
-    { x: 225, y: 25, z: 175 },
-    { x: 225, y: 25, z: 75 },
-    { x: 325, y: 25, z: 175 },
-    { x: 175, y: 25, z: -275 },
-    { x: 125, y: 25, z: -125 },
-    { x: 125, y: 25, z: -25 },
-    { x: 225, y: 25, z: -125 },
-    { x: 25, y: 25, z: 25 },
-    { x: -75, y: 25, z: -25 },
-    { x: -125, y: 25, z: -25 },
-    { x: -75, y: 25, z: -125 }
-]
+var originCubePosition = {
+    water: [],
+    grass: [],
+    brick: [],
+    door: [],
+}
 
 var createPreview = function () {
+    scene.remove(rollOverMesh)
     rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
     rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
     rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
@@ -51,28 +31,28 @@ var createPreview = function () {
 var createWater = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') } );
+    cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') });
 }
 
 var createGrass = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') } );
+    cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') });
 }
 
 var createBrick = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') } );
+    cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') });
 
 }
 //MC材质大门
 var createDoor = function () {
     createPreview();
-    cubeGeo = new THREE.BoxGeometry(50, 50, 50); 
-    var texture = new THREE.TextureLoader().load( '../dist/textures/minecraft/door_spruce_lower.png' );
+    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+    var texture = new THREE.TextureLoader().load('../dist/textures/minecraft/door_spruce_lower.png');
     texture.magFilter = THREE.NearestFilter;//指定纹理的放大方式, nearestFilter最邻近过滤
-    cubeMaterial = new THREE.MeshLambertMaterial( { map: texture } );
+    cubeMaterial = new THREE.MeshLambertMaterial({ map: texture });
 }
 
 // // init
@@ -261,17 +241,17 @@ groundGeometry.rotateX(- Math.PI / 2);
 objects.push(ground);
 scene.add(ground)
 
-originCubePosition.forEach(position => {
-    var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
-    var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
-    var cube = new THREE.Mesh(cube_Geo, cube_Material);
-    cube.position.x = position.x
-    cube.position.y = position.y
-    cube.position.z = position.z
-    objects.push(cube);
+// originCubePosition.forEach(position => {
+//     var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
+//     var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
+//     var cube = new THREE.Mesh(cube_Geo, cube_Material);
+//     cube.position.x = position.x
+//     cube.position.y = position.y
+//     cube.position.z = position.z
+//     objects.push(cube);
 
-    scene.add(cube)
-});
+//     scene.add(cube)
+// });
 // const textureLoader = new THREE.TextureLoader();
 // textureLoader.load('textures/Sand_01_basecolor.png', function (map) {
 //     map.wrapS = THREE.RepeatWrapping;
@@ -316,7 +296,7 @@ function onDocumentMouseDown(event) {
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
-            var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
+            var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
             //var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
