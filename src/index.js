@@ -355,7 +355,7 @@ function render() {
 
 
 document.addEventListener('mousemove', onDocumentMouseMove, false);//鼠标移动事件
-document.addEventListener('mousedown', onDocumentMouseDown, false);//鼠标点击事件
+document.addEventListener('pointerdown', onDocumentMouseDown, false);//鼠标点击事件
 document.addEventListener('keydown', onDocumentKeyDown, false);//对shift按键的控制
 document.addEventListener('keyup', onDocumentKeyUp, false);//对shift按键的控制
 console.log("done");
