@@ -14,6 +14,20 @@ var cubeGeo, cubeMaterial
 var cube
 var gui
 
+var matrix = []
+
+for (let x = 0; x < 20; x++) {
+    matrix.push([])
+    for (let y = 0; y < 20; y++) {
+        matrix[x].push([])
+        for (let z = 0; z < 20; z++) {
+            matrix[x][y].push('')
+        }
+    }
+}
+console.log(matrix);
+// 初始值 Vector3 {x: -475, y: 25, z: -475}
+
 var originCubePosition = JSON.parse(origin)
 
 
@@ -315,7 +329,7 @@ function onDocumentMouseDown(event) {
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
             voxel.castShadow = true
-            voxel.receiveShadow = true
+            // voxel.receiveShadow = true
             voxel.name = currentCube
             scene.add(voxel);
             objects.push(voxel);
