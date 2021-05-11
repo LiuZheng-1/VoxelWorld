@@ -274,8 +274,8 @@ for (const key in originCubePosition) {
         cube.position.x = position.x
         cube.position.y = position.y
         cube.position.z = position.z
-        cube.castShadow = true
         cube.receiveShadow = true
+        cube.castShadow = position.z === -525 ? true : false
         cube.name = key
         objects.push(cube);
 
