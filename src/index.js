@@ -72,6 +72,7 @@ var exportCubePosition = function () {
                 break;
         }
     })
+    console.log(ary);
 }
 
 // // init
@@ -137,10 +138,7 @@ renderer.setClearColor(0xCCCCCC, 1.0);
 var clock = new THREE.Clock();
 
 
-// var material = new THREE.LineBasicMaterial({ color: 0x000000, opacity: 0.2, transparent: true });
-// //创建一个线条材质，线条颜色黑色，透明度0.2
-// var line = new THREE.LineSegments(geometry, material);
-// scene.add(line);
+
 
 const gui = new GUI();
 
@@ -174,6 +172,15 @@ var MyResize = function () {
 //link the resize of the window to the update of the camera
 window.addEventListener('resize', MyResize);
 
+const water_params = {
+    color: '#ffffff',
+    scale: 0.5,
+    flowX: 1,
+    flowY: 1,
+    cube_color: "#20a8e6",
+    cube_opacity: 0.5,
+};
+
 scene.background = skybox();
 
 var groundGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
@@ -182,7 +189,6 @@ var groundMaterial = new THREE.MeshStandardMaterial({ roughness: 0.8, metalness:
 var ground = new THREE.Mesh(groundGeometry, groundMaterial);
 ground.name = 'ground'
 groundGeometry.rotateX(- Math.PI / 2);
-// groundMaterial.wireframe = true
 objects.push(ground);
 scene.add(ground)
 for (const key in originCubePosition) {
@@ -204,8 +210,6 @@ for (const key in originCubePosition) {
             break;
     }
     originCubePosition[key].forEach(position => {
-        // var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
-        // var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
         var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
         cube.position.x = position.x
         cube.position.y = position.y
@@ -245,12 +249,14 @@ function onDocumentMouseDown(event) {
             }
         } else {
             var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+            //var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
             voxel.castShadow = true
+            voxel.name = currentCube
             scene.add(voxel);
             objects.push(voxel);
-            // originCubePosition[currentCube].push(voxel.position)
+            originCubePosition[currentCube].push(voxel.position)
 
         }
         render();
@@ -285,4 +291,3 @@ document.addEventListener('pointerdown', onDocumentMouseDown, false);//鼠标点
 document.addEventListener('keydown', onDocumentKeyDown, false);//对shift按键的控制
 document.addEventListener('keyup', onDocumentKeyUp, false);//对shift按键的控制
 console.log("done");
-console.log(originCubePosition);
