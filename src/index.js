@@ -25,8 +25,11 @@ for (let x = 0; x < 20; x++) {
         }
     }
 }
-console.log(matrix);
-// 初始值 Vector3 {x: -475, y: 25, z: -475}
+// matrix[0][0][0] {x: -475, y: 25, z: -475}
+// matrix[0][0][1] z + 50 * 1
+// matrix[0][1][0] y + 50 * 1
+// matrix[1][0][0] x + 50 * 1
+
 
 var originCubePosition = JSON.parse(origin)
 
@@ -293,9 +296,16 @@ for (const key in originCubePosition) {
         cube.name = key
         objects.push(cube);
 
+        const x = (cube.position.x - (-475)) / 50
+        const y = (cube.position.y - 25) / 50
+        const z = (cube.position.z - (-475)) / 50
+        matrix[x][y][z] = cube.name
+
         scene.add(cube)
     })
 }
+
+console.log(JSON.stringify(matrix));
 
 function onDocumentMouseMove(event) {
     event.preventDefault();//取消事件的默认动作
@@ -333,7 +343,15 @@ function onDocumentMouseDown(event) {
             voxel.name = currentCube
             scene.add(voxel);
             objects.push(voxel);
+            // matrix[0][0][0] {x: -475, y: 25, z: -475}
             console.log(voxel.position);
+            console.log((voxel.position.x - (-475)) / 50);
+            console.log((voxel.position.y - 25) / 50);
+            console.log((voxel.position.z - (-475)) / 50);
+            const x = (voxel.position.x - (-475)) / 50
+            const y = (voxel.position.y - 25) / 50
+            const z = (voxel.position.z - (-475)) / 50
+            matrix[x][y][z] = voxel.name
             // originCubePosition[currentCube].push(voxel.position)
 
         }
