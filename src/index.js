@@ -3,9 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Water } from 'three/examples/jsm/objects/Water2';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
 import { skybox } from './skybox.js'
-import { WaterCube } from './water_cube'
-import { Mesh, Texture } from 'three';
 
+var origin = '{"water":[{"x":75,"y":25,"z":-25},{"x":125,"y":25,"z":-75},{"x":75,"y":25,"z":-75},{"x":125,"y":25,"z":-125},{"x":75,"y":25,"z":-125},{"x":25,"y":25,"z":-125},{"x":25,"y":25,"z":-25},{"x":25,"y":25,"z":-75},{"x":25,"y":25,"z":75},{"x":25,"y":25,"z":25},{"x":-25,"y":25,"z":75},{"x":-25,"y":25,"z":25},{"x":-25,"y":25,"z":-75},{"x":25,"y":25,"z":-175},{"x":75,"y":25,"z":-175}],"grass":[{"x":-475,"y":25,"z":-475},{"x":-475,"y":25,"z":-375},{"x":-475,"y":25,"z":-425},{"x":-425,"y":25,"z":-475},{"x":-425,"y":25,"z":-425},{"x":-425,"y":25,"z":-375},{"x":-425,"y":25,"z":-325},{"x":-475,"y":25,"z":-325},{"x":-475,"y":25,"z":-225},{"x":-425,"y":25,"z":-275},{"x":-475,"y":25,"z":-275},{"x":-425,"y":25,"z":-225},{"x":-375,"y":25,"z":-325},{"x":-375,"y":25,"z":-425},{"x":-375,"y":25,"z":-475},{"x":-375,"y":25,"z":-375},{"x":-325,"y":25,"z":-475},{"x":-325,"y":25,"z":-425},{"x":-325,"y":25,"z":-375},{"x":-375,"y":25,"z":-275},{"x":-475,"y":25,"z":-175},{"x":-275,"y":25,"z":-425},{"x":-175,"y":25,"z":-275},{"x":-275,"y":25,"z":-475},{"x":-175,"y":25,"z":-475},{"x":-175,"y":25,"z":-425},{"x":-175,"y":75,"z":-425},{"x":-225,"y":25,"z":-475},{"x":-225,"y":25,"z":-425},{"x":-275,"y":25,"z":-375},{"x":-225,"y":25,"z":-375},{"x":-275,"y":25,"z":-325},{"x":-325,"y":25,"z":-325},{"x":-325,"y":25,"z":-275},{"x":-375,"y":25,"z":-225},{"x":-425,"y":25,"z":-175},{"x":-475,"y":25,"z":-125},{"x":-125,"y":25,"z":-475},{"x":-475,"y":25,"z":475},{"x":-475,"y":25,"z":425},{"x":-475,"y":25,"z":375},{"x":-475,"y":25,"z":325},{"x":-475,"y":25,"z":275},{"x":-475,"y":25,"z":225},{"x":-475,"y":25,"z":175},{"x":-425,"y":25,"z":475},{"x":-475,"y":75,"z":425},{"x":-425,"y":25,"z":425},{"x":-425,"y":25,"z":375},{"x":-425,"y":25,"z":325},{"x":-425,"y":25,"z":275},{"x":-425,"y":25,"z":225},{"x":-375,"y":25,"z":275},{"x":-375,"y":25,"z":325},{"x":-375,"y":25,"z":375},{"x":-375,"y":25,"z":425},{"x":-375,"y":25,"z":475},{"x":-325,"y":25,"z":475},{"x":-325,"y":25,"z":425},{"x":-325,"y":25,"z":375},{"x":-325,"y":25,"z":325},{"x":-275,"y":25,"z":375},{"x":-275,"y":25,"z":425},{"x":-275,"y":25,"z":475},{"x":-225,"y":25,"z":475},{"x":-225,"y":25,"z":425},{"x":-175,"y":25,"z":475},{"x":-125,"y":25,"z":475},{"x":-175,"y":25,"z":425},{"x":-225,"y":25,"z":375},{"x":-275,"y":25,"z":325},{"x":-325,"y":25,"z":275},{"x":-375,"y":25,"z":225},{"x":-425,"y":25,"z":175},{"x":-475,"y":25,"z":125},{"x":475,"y":25,"z":475},{"x":475,"y":25,"z":425},{"x":475,"y":25,"z":375},{"x":475,"y":25,"z":325},{"x":475,"y":25,"z":275},{"x":475,"y":25,"z":225},{"x":475,"y":25,"z":175},{"x":475,"y":25,"z":125},{"x":425,"y":25,"z":175},{"x":425,"y":25,"z":475},{"x":425,"y":25,"z":425},{"x":425,"y":25,"z":375},{"x":425,"y":25,"z":275},{"x":425,"y":25,"z":325},{"x":425,"y":25,"z":225},{"x":375,"y":25,"z":225},{"x":375,"y":25,"z":275},{"x":375,"y":25,"z":325},{"x":375,"y":25,"z":375},{"x":375,"y":25,"z":425},{"x":375,"y":25,"z":475},{"x":325,"y":25,"z":475},{"x":325,"y":25,"z":425},{"x":325,"y":25,"z":375},{"x":325,"y":25,"z":325},{"x":325,"y":25,"z":275},{"x":275,"y":25,"z":275},{"x":275,"y":25,"z":325},{"x":275,"y":25,"z":375},{"x":275,"y":25,"z":425},{"x":275,"y":25,"z":475},{"x":225,"y":25,"z":475},{"x":225,"y":25,"z":425},{"x":225,"y":25,"z":375},{"x":225,"y":25,"z":325},{"x":175,"y":25,"z":375},{"x":175,"y":25,"z":425},{"x":175,"y":25,"z":475},{"x":125,"y":25,"z":475},{"x":125,"y":25,"z":425},{"x":325,"y":25,"z":225},{"x":375,"y":25,"z":175},{"x":425,"y":25,"z":125},{"x":475,"y":25,"z":75},{"x":75,"y":25,"z":475},{"x":475,"y":25,"z":-75},{"x":475,"y":25,"z":-125},{"x":475,"y":25,"z":-175},{"x":475,"y":25,"z":-225},{"x":475,"y":25,"z":-275},{"x":475,"y":25,"z":-325},{"x":475,"y":25,"z":-375},{"x":475,"y":25,"z":-425},{"x":475,"y":25,"z":-475},{"x":425,"y":25,"z":-475},{"x":375,"y":25,"z":-475},{"x":325,"y":25,"z":-475},{"x":275,"y":25,"z":-475},{"x":225,"y":25,"z":-475},{"x":175,"y":25,"z":-475},{"x":125,"y":25,"z":-475},{"x":75,"y":25,"z":-475},{"x":125,"y":25,"z":-425},{"x":175,"y":25,"z":-425},{"x":275,"y":25,"z":-425},{"x":225,"y":25,"z":-425},{"x":325,"y":25,"z":-425},{"x":375,"y":25,"z":-425},{"x":425,"y":25,"z":-425},{"x":425,"y":25,"z":-375},{"x":375,"y":25,"z":-375},{"x":325,"y":25,"z":-375},{"x":275,"y":25,"z":-375},{"x":225,"y":25,"z":-375},{"x":175,"y":25,"z":-375},{"x":225,"y":25,"z":-325},{"x":275,"y":25,"z":-325},{"x":325,"y":25,"z":-325},{"x":375,"y":25,"z":-325},{"x":425,"y":25,"z":-325},{"x":425,"y":25,"z":-275},{"x":375,"y":25,"z":-275},{"x":325,"y":25,"z":-275},{"x":275,"y":25,"z":-275},{"x":325,"y":25,"z":-225},{"x":375,"y":25,"z":-225},{"x":425,"y":25,"z":-225},{"x":425,"y":25,"z":-175},{"x":375,"y":25,"z":-175},{"x":425,"y":25,"z":-125},{"x":-75,"y":25,"z":475},{"x":-125,"y":25,"z":425},{"x":-175,"y":25,"z":375},{"x":-225,"y":25,"z":325},{"x":-275,"y":25,"z":275},{"x":-325,"y":25,"z":225},{"x":-375,"y":25,"z":175},{"x":-425,"y":25,"z":125},{"x":-475,"y":25,"z":75},{"x":-475,"y":25,"z":-75},{"x":-425,"y":25,"z":-125},{"x":-375,"y":25,"z":-175},{"x":-325,"y":25,"z":-225},{"x":-275,"y":25,"z":-275},{"x":-225,"y":25,"z":-325},{"x":-175,"y":25,"z":-375},{"x":-125,"y":25,"z":-425},{"x":-75,"y":25,"z":-475},{"x":175,"y":25,"z":175},{"x":125,"y":25,"z":175},{"x":125,"y":25,"z":125},{"x":125,"y":25,"z":75},{"x":75,"y":25,"z":125},{"x":75,"y":75,"z":125},{"x":25,"y":25,"z":175},{"x":25,"y":25,"z":125},{"x":-25,"y":25,"z":125},{"x":-25,"y":25,"z":175},{"x":-125,"y":25,"z":175},{"x":-75,"y":25,"z":175},{"x":-75,"y":25,"z":125},{"x":-75,"y":25,"z":75},{"x":-25,"y":25,"z":-25},{"x":-75,"y":25,"z":-25},{"x":-75,"y":25,"z":25},{"x":-125,"y":25,"z":-25},{"x":-75,"y":25,"z":-75},{"x":-25,"y":25,"z":-125},{"x":-25,"y":25,"z":-175},{"x":-25,"y":25,"z":-225},{"x":25,"y":25,"z":-225},{"x":75,"y":25,"z":-225},{"x":125,"y":25,"z":-225},{"x":225,"y":25,"z":-225},{"x":225,"y":25,"z":-175},{"x":225,"y":25,"z":-125},{"x":175,"y":25,"z":-125},{"x":175,"y":25,"z":-175},{"x":175,"y":25,"z":-225},{"x":125,"y":25,"z":-175}],"brick":[{"x":25,"y":25,"z":475},{"x":75,"y":25,"z":425},{"x":25,"y":25,"z":425},{"x":125,"y":25,"z":375},{"x":75,"y":25,"z":375},{"x":175,"y":25,"z":325},{"x":125,"y":25,"z":325},{"x":225,"y":25,"z":275},{"x":175,"y":25,"z":275},{"x":275,"y":25,"z":225},{"x":225,"y":25,"z":225},{"x":325,"y":25,"z":175},{"x":325,"y":25,"z":125},{"x":325,"y":25,"z":25},{"x":325,"y":25,"z":75},{"x":325,"y":25,"z":-25},{"x":325,"y":25,"z":-125},{"x":325,"y":25,"z":-75},{"x":325,"y":25,"z":-175},{"x":375,"y":25,"z":-125},{"x":375,"y":25,"z":-75},{"x":375,"y":25,"z":-25},{"x":375,"y":25,"z":25},{"x":375,"y":25,"z":75},{"x":375,"y":25,"z":125},{"x":425,"y":25,"z":75},{"x":425,"y":25,"z":25},{"x":425,"y":25,"z":-25},{"x":425,"y":25,"z":-75},{"x":475,"y":25,"z":25},{"x":475,"y":25,"z":-25},{"x":25,"y":25,"z":-475},{"x":-25,"y":25,"z":-475},{"x":25,"y":25,"z":-425},{"x":75,"y":25,"z":-425},{"x":-25,"y":25,"z":-425},{"x":-75,"y":25,"z":-425},{"x":-125,"y":25,"z":-375},{"x":-75,"y":25,"z":-375},{"x":-25,"y":25,"z":-375},{"x":25,"y":25,"z":-375},{"x":75,"y":25,"z":-375},{"x":125,"y":25,"z":-375},{"x":175,"y":25,"z":-325},{"x":125,"y":25,"z":-325},{"x":75,"y":25,"z":-325},{"x":-25,"y":25,"z":-325},{"x":25,"y":25,"z":-325},{"x":-75,"y":25,"z":-325},{"x":-125,"y":25,"z":-325},{"x":-175,"y":25,"z":-325},{"x":225,"y":25,"z":-275},{"x":175,"y":25,"z":-275},{"x":125,"y":25,"z":-275},{"x":25,"y":25,"z":-275},{"x":75,"y":25,"z":-275},{"x":-25,"y":25,"z":-275},{"x":-75,"y":25,"z":-275},{"x":-125,"y":25,"z":-275},{"x":-225,"y":25,"z":-275},{"x":-275,"y":25,"z":-225},{"x":-275,"y":25,"z":-175},{"x":-275,"y":25,"z":-125},{"x":-275,"y":25,"z":-75},{"x":-275,"y":25,"z":-25},{"x":-275,"y":25,"z":25},{"x":-275,"y":25,"z":75},{"x":-275,"y":25,"z":125},{"x":-275,"y":25,"z":175},{"x":-275,"y":25,"z":225},{"x":-325,"y":25,"z":175},{"x":-325,"y":25,"z":125},{"x":-325,"y":25,"z":75},{"x":-325,"y":25,"z":-25},{"x":-325,"y":25,"z":25},{"x":-325,"y":25,"z":-75},{"x":-325,"y":25,"z":-125},{"x":-325,"y":25,"z":-175},{"x":-375,"y":25,"z":-125},{"x":-375,"y":25,"z":-75},{"x":-375,"y":25,"z":-25},{"x":-375,"y":25,"z":25},{"x":-375,"y":25,"z":75},{"x":-375,"y":25,"z":125},{"x":-425,"y":25,"z":75},{"x":-425,"y":25,"z":25},{"x":-425,"y":25,"z":-25},{"x":-425,"y":25,"z":-75},{"x":-475,"y":25,"z":-25},{"x":175,"y":25,"z":225},{"x":125,"y":25,"z":225},{"x":75,"y":25,"z":225},{"x":25,"y":25,"z":225},{"x":-25,"y":25,"z":225},{"x":-75,"y":25,"z":225},{"x":-125,"y":25,"z":225},{"x":-175,"y":25,"z":225},{"x":-225,"y":25,"z":225},{"x":-225,"y":25,"z":275},{"x":-175,"y":25,"z":275},{"x":-125,"y":25,"z":275},{"x":-75,"y":25,"z":275},{"x":-25,"y":25,"z":275},{"x":25,"y":25,"z":275},{"x":75,"y":25,"z":275},{"x":125,"y":25,"z":275},{"x":75,"y":25,"z":325},{"x":25,"y":25,"z":325},{"x":-75,"y":25,"z":325},{"x":-25,"y":25,"z":325},{"x":-125,"y":25,"z":325},{"x":-175,"y":25,"z":325},{"x":-125,"y":25,"z":375},{"x":-75,"y":25,"z":375},{"x":-25,"y":25,"z":375},{"x":25,"y":25,"z":375},{"x":-25,"y":25,"z":425},{"x":-75,"y":25,"z":425},{"x":-25,"y":25,"z":475},{"x":-475,"y":25,"z":25},{"x":275,"y":25,"z":175},{"x":275,"y":25,"z":125},{"x":275,"y":25,"z":75},{"x":275,"y":25,"z":25},{"x":275,"y":25,"z":-25},{"x":275,"y":25,"z":-75},{"x":275,"y":25,"z":-125},{"x":275,"y":25,"z":-175},{"x":275,"y":25,"z":-225},{"x":-75,"y":25,"z":-125},{"x":-75,"y":25,"z":-175},{"x":-75,"y":25,"z":-225},{"x":-125,"y":25,"z":-225},{"x":-175,"y":25,"z":-175},{"x":-175,"y":25,"z":-225},{"x":-225,"y":25,"z":-225},{"x":-225,"y":25,"z":-175},{"x":-225,"y":25,"z":-125},{"x":-225,"y":25,"z":-75},{"x":-225,"y":25,"z":25},{"x":-225,"y":25,"z":-25},{"x":-225,"y":25,"z":75},{"x":-225,"y":25,"z":175},{"x":-175,"y":25,"z":175},{"x":-125,"y":25,"z":125},{"x":-175,"y":25,"z":125},{"x":-225,"y":25,"z":125},{"x":-175,"y":25,"z":75},{"x":75,"y":25,"z":175},{"x":-75,"y":75,"z":-425},{"x":-125,"y":75,"z":-425},{"x":-175,"y":125,"z":-425},{"x":-175,"y":75,"z":-375},{"x":-225,"y":75,"z":-425},{"x":-125,"y":75,"z":-375},{"x":-75,"y":75,"z":-375},{"x":-75,"y":75,"z":-325},{"x":-175,"y":75,"z":-325},{"x":-325,"y":75,"z":-375},{"x":-125,"y":75,"z":-325},{"x":-275,"y":75,"z":-375},{"x":-175,"y":125,"z":-375},{"x":-175,"y":175,"z":-375},{"x":-125,"y":125,"z":-375},{"x":-175,"y":125,"z":-325},{"x":-225,"y":75,"z":-325},{"x":-225,"y":125,"z":-325},{"x":-325,"y":75,"z":-325},{"x":-275,"y":75,"z":-325},{"x":-275,"y":125,"z":-375},{"x":-225,"y":75,"z":-375},{"x":-225,"y":125,"z":-375},{"x":-225,"y":175,"z":-375},{"x":-275,"y":75,"z":-425},{"x":-175,"y":75,"z":-475},{"x":-225,"y":75,"z":-475},{"x":-225,"y":125,"z":-425},{"x":-275,"y":75,"z":-475},{"x":-325,"y":75,"z":-425}],"door":[{"x":225,"y":25,"z":175},{"x":175,"y":25,"z":125},{"x":225,"y":25,"z":125},{"x":175,"y":25,"z":75},{"x":75,"y":25,"z":75},{"x":75,"y":25,"z":25},{"x":125,"y":25,"z":-25},{"x":175,"y":25,"z":-75},{"x":225,"y":25,"z":-75},{"x":175,"y":25,"z":25},{"x":225,"y":25,"z":25},{"x":-125,"y":25,"z":-75},{"x":-175,"y":25,"z":25},{"x":-125,"y":25,"z":75},{"x":-125,"y":25,"z":25},{"x":-175,"y":75,"z":25},{"x":-175,"y":25,"z":-25},{"x":-175,"y":25,"z":-125},{"x":-125,"y":25,"z":-125},{"x":-175,"y":25,"z":-75},{"x":-125,"y":25,"z":-175},{"x":225,"y":25,"z":-25},{"x":175,"y":25,"z":-25},{"x":225,"y":25,"z":75},{"x":125,"y":25,"z":25},{"x":-275,"y":125,"z":-425},{"x":-225,"y":175,"z":-425},{"x":-225,"y":125,"z":-475},{"x":-175,"y":125,"z":-475},{"x":-175,"y":175,"z":-425},{"x":-225,"y":225,"z":-375},{"x":-175,"y":225,"z":-375},{"x":-275,"y":175,"z":-375},{"x":-175,"y":75,"z":75},{"x":-175,"y":75,"z":125},{"x":-175,"y":125,"z":75},{"x":-175,"y":125,"z":25},{"x":-125,"y":75,"z":75},{"x":-175,"y":175,"z":75},{"x":-125,"y":125,"z":75},{"x":-125,"y":75,"z":25},{"x":-125,"y":125,"z":25},{"x":-175,"y":175,"z":25},{"x":-125,"y":175,"z":75},{"x":-175,"y":75,"z":-25},{"x":-225,"y":75,"z":25},{"x":-225,"y":75,"z":-25},{"x":-225,"y":75,"z":125},{"x":-225,"y":75,"z":75},{"x":-225,"y":125,"z":75},{"x":-225,"y":125,"z":25},{"x":-175,"y":225,"z":25},{"x":-225,"y":175,"z":25},{"x":-225,"y":125,"z":-25},{"x":-175,"y":125,"z":-25},{"x":-75,"y":75,"z":-475},{"x":-125,"y":75,"z":-475},{"x":-25,"y":75,"z":-475},{"x":-25,"y":75,"z":-375},{"x":-25,"y":75,"z":-425},{"x":-25,"y":75,"z":-325},{"x":-75,"y":125,"z":-325},{"x":-75,"y":125,"z":-375},{"x":-75,"y":125,"z":-425},{"x":-125,"y":125,"z":-425},{"x":-125,"y":175,"z":-375},{"x":-125,"y":225,"z":-375},{"x":-125,"y":125,"z":-325},{"x":-175,"y":175,"z":-325},{"x":125,"y":75,"z":-275},{"x":75,"y":75,"z":-275},{"x":25,"y":75,"z":-275},{"x":25,"y":75,"z":-325},{"x":75,"y":75,"z":-325},{"x":125,"y":75,"z":-325},{"x":125,"y":75,"z":-375},{"x":125,"y":75,"z":-425},{"x":125,"y":75,"z":-475},{"x":75,"y":75,"z":-475},{"x":25,"y":75,"z":-475},{"x":25,"y":75,"z":-425},{"x":25,"y":75,"z":-375},{"x":75,"y":75,"z":-375},{"x":75,"y":75,"z":-425},{"x":-75,"y":75,"z":-275},{"x":175,"y":75,"z":-325},{"x":175,"y":75,"z":-375},{"x":225,"y":75,"z":-375},{"x":175,"y":75,"z":-475},{"x":175,"y":75,"z":-425},{"x":225,"y":75,"z":-425},{"x":275,"y":75,"z":-475},{"x":275,"y":75,"z":-425},{"x":225,"y":75,"z":-475},{"x":175,"y":125,"z":-425},{"x":125,"y":125,"z":-375},{"x":75,"y":125,"z":-425},{"x":25,"y":125,"z":-375},{"x":25,"y":125,"z":-325},{"x":-25,"y":125,"z":-325},{"x":-25,"y":125,"z":-375},{"x":-25,"y":125,"z":-425},{"x":25,"y":125,"z":-425},{"x":75,"y":125,"z":-375},{"x":75,"y":125,"z":-325},{"x":125,"y":125,"z":-325},{"x":175,"y":125,"z":-325},{"x":175,"y":125,"z":-375},{"x":225,"y":125,"z":-375},{"x":225,"y":125,"z":-425},{"x":275,"y":125,"z":-425},{"x":125,"y":125,"z":-425},{"x":75,"y":175,"z":-375},{"x":-25,"y":175,"z":-375},{"x":25,"y":175,"z":-325},{"x":-75,"y":175,"z":-325},{"x":-25,"y":175,"z":-325},{"x":-75,"y":175,"z":-375},{"x":-125,"y":175,"z":-425},{"x":-75,"y":175,"z":-425},{"x":-25,"y":175,"z":-425},{"x":25,"y":175,"z":-375},{"x":125,"y":175,"z":-375},{"x":175,"y":175,"z":-375},{"x":175,"y":175,"z":-325},{"x":125,"y":175,"z":-325},{"x":125,"y":225,"z":-325},{"x":75,"y":175,"z":-325},{"x":25,"y":225,"z":-375},{"x":-75,"y":225,"z":-375},{"x":-25,"y":225,"z":-375},{"x":75,"y":225,"z":-375},{"x":125,"y":225,"z":-375},{"x":175,"y":225,"z":-375},{"x":125,"y":125,"z":-475},{"x":125,"y":175,"z":-425},{"x":175,"y":175,"z":-425},{"x":125,"y":225,"z":-425},{"x":175,"y":225,"z":-425},{"x":75,"y":175,"z":-425},{"x":75,"y":225,"z":-425},{"x":25,"y":175,"z":-425},{"x":25,"y":225,"z":-425},{"x":25,"y":125,"z":-475},{"x":75,"y":125,"z":-475},{"x":175,"y":125,"z":-475},{"x":225,"y":125,"z":-475},{"x":175,"y":175,"z":-475},{"x":125,"y":175,"z":-475},{"x":75,"y":175,"z":-475},{"x":-25,"y":125,"z":-475},{"x":-75,"y":125,"z":-475},{"x":-125,"y":125,"z":-475},{"x":-275,"y":125,"z":-475},{"x":-325,"y":75,"z":-475},{"x":-225,"y":75,"z":175},{"x":-275,"y":75,"z":175},{"x":-325,"y":75,"z":75},{"x":-275,"y":75,"z":75},{"x":-275,"y":75,"z":125},{"x":-325,"y":75,"z":125},{"x":-325,"y":75,"z":-25},{"x":-325,"y":75,"z":25},{"x":-275,"y":75,"z":-25},{"x":-275,"y":75,"z":25},{"x":-375,"y":75,"z":25},{"x":-375,"y":75,"z":75},{"x":-275,"y":125,"z":25},{"x":-325,"y":125,"z":25},{"x":-325,"y":125,"z":75},{"x":-275,"y":125,"z":75},{"x":-275,"y":125,"z":125},{"x":-225,"y":125,"z":125},{"x":-225,"y":175,"z":75},{"x":-275,"y":175,"z":75},{"x":-325,"y":175,"z":75},{"x":-275,"y":225,"z":75},{"x":-225,"y":225,"z":75},{"x":-225,"y":225,"z":25},{"x":-275,"y":175,"z":25},{"x":-275,"y":225,"z":25},{"x":-325,"y":125,"z":-375},{"x":-375,"y":75,"z":-375},{"x":-425,"y":75,"z":-375},{"x":-375,"y":75,"z":-425},{"x":-425,"y":75,"z":-425},{"x":-475,"y":75,"z":-375},{"x":-425,"y":125,"z":-375},{"x":-325,"y":125,"z":-425},{"x":-375,"y":125,"z":-425},{"x":-375,"y":125,"z":-375},{"x":-225,"y":275,"z":25}]}'
 var rollOverGeo, rollOverMaterial, rollOverMesh
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -13,12 +12,11 @@ var objects = [];
 var isShiftDown = false
 var cubeGeo, cubeMaterial
 var cube
-var originCubePosition = {
-    water: [],
-    grass: [],
-    brick: [],
-    door: [],
-}
+
+var originCubePosition = JSON.parse(origin)
+
+
+var currentCube = ''
 
 var createPreview = function () {
     scene.remove(rollOverMesh)
@@ -32,19 +30,21 @@ var createWater = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') });
+    currentCube = 'water'
 }
 
 var createGrass = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') });
+    currentCube = 'grass'
 }
 
 var createBrick = function () {
     createPreview();
     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') });
-
+    currentCube = 'brick'
 }
 //MC材质大门
 var createDoor = function () {
@@ -53,6 +53,25 @@ var createDoor = function () {
     var texture = new THREE.TextureLoader().load('../dist/textures/minecraft/door_spruce_lower.png');
     texture.magFilter = THREE.NearestFilter;//指定纹理的放大方式, nearestFilter最邻近过滤
     cubeMaterial = new THREE.MeshLambertMaterial({ map: texture });
+    currentCube = 'door'
+}
+
+var exportCubePosition = function () {
+    const ary = {
+        'grass': [],
+        'water': [],
+        'brick': [],
+        'door': [],
+    }
+    objects.forEach(obj => {
+        switch (obj.name) {
+            case 'ground':
+                break;
+            default:
+                ary[obj.name].push(obj.position)
+                break;
+        }
+    })
 }
 
 // // init
@@ -60,6 +79,9 @@ var createDoor = function () {
 // create box
 var info = document.createElement('div');
 document.body.appendChild(info)
+console.log(info.class);
+info.class = 'info'
+info.style.display = 'flex'
 info.style.position = 'absolute';
 info.style.top = '10px';
 info.style.width = '200px';
@@ -70,52 +92,32 @@ info.style.zIndex = 99;
 var waterElement = document.createElement('button')
 waterElement.id = 'waterCube'
 waterElement.onclick = createWater
-console.log(waterElement);
+waterElement.innerHTML = 'waterCube'
 info.appendChild(waterElement);
 
-var info = document.createElement('div');
-document.body.appendChild(info)
-info.style.position = 'absolute';
-info.style.top = '70px';
-info.style.width = '200px';
-info.style.height = '50px'
-info.style.background = '#ccc'
-info.style.textAlign = 'center';
-info.style.zIndex = 99;
 var grassElement = document.createElement('button')
 grassElement.id = 'grassCube'
 grassElement.onclick = createGrass
-console.log(grassElement);
+grassElement.innerHTML = 'grassCube'
+
 info.appendChild(grassElement);
 
-var info = document.createElement('div');
-document.body.appendChild(info)
-info.style.position = 'absolute';
-info.style.top = '130px';
-info.style.width = '200px';
-info.style.height = '50px'
-info.style.background = '#ccc'
-info.style.textAlign = 'center';
-info.style.zIndex = 99;
 var brickElement = document.createElement('button')
-brickElement.id = 'mcGrassCube'
+brickElement.id = 'brickCube'
 brickElement.onclick = createBrick
-console.log(brickElement);
+brickElement.innerHTML = 'brickCube'
 info.appendChild(brickElement);
 
-var info = document.createElement('div');
-document.body.appendChild(info)
-info.style.position = 'absolute';
-info.style.top = '190px';
-info.style.width = '200px';
-info.style.height = '50px'
-info.style.background = '#ccc'
-info.style.textAlign = 'center';
-info.style.zIndex = 99;
 var doorElement = document.createElement('button')
-doorElement.id = 'mcGrassCube'
+doorElement.id = 'doorCube'
 doorElement.onclick = createDoor
-console.log(doorElement);
+doorElement.innerHTML = 'doorCube'
+info.appendChild(doorElement);
+
+var doorElement = document.createElement('button')
+doorElement.id = 'export'
+doorElement.onclick = exportCubePosition
+doorElement.innerHTML = 'export'
 info.appendChild(doorElement);
 
 
@@ -172,103 +174,49 @@ var MyResize = function () {
 //link the resize of the window to the update of the camera
 window.addEventListener('resize', MyResize);
 
-
-// water
-const water_params = {
-    color: '#ffffff',
-    scale: 0.5,
-    flowX: 1,
-    flowY: 1,
-    cube_color: "#20a8e6",
-    cube_opacity: 0.5,
-};
-
-
-
-// var water_cube = new THREE.Object3D();
-
-// const waterGeometry = new THREE.PlaneGeometry( 1, 1 );
-// var water = new Water( waterGeometry, {
-//     color: water_params.color,
-//     scale: water_params.scale,
-//     flowDirection: new THREE.Vector2( water_params.flowX, water_params.flowY ),
-//     textureWidth: 1024,
-//     textureHeight: 1024
-// } );
-
-// water.position.y = 0.5;
-// water.rotation.x = Math.PI * - 0.5;
-// water_cube.add( water );
-
-// var cube_geometry = new THREE.BoxGeometry(1,0.99,1);
-// var cube_material = new THREE.MeshBasicMaterial( { 
-//     color: water_params.cube_color,
-//     transparent:true,
-//     opacity:water_params.cube_opacity
-// } );
-// var cube = new THREE.Mesh( cube_geometry, cube_material );
-// water_cube.add( cube );
-
-// var water_cube = WaterCube(water_params);
-// scene.add(water_cube)
-// var water_cube_1 = WaterCube(water_params, 1, 0);
-// scene.add(water_cube_1)
-
 scene.background = skybox();
-
-// gui.addColor( water_params, 'color' ).onChange( function ( value ) {
-//     water.material.uniforms[ 'color' ].value.set( value );
-// } );
-// gui.add( water_params, 'scale', 0.01, 2 ).step( 0.01 ).onChange( function ( value ) {
-//     water.material.uniforms[ 'config' ].value.w = value;
-// } );
-// gui.addColor( water_params, 'cube_color' ).onChange( function ( value ) {
-//     cube.material.color.set(value);
-//     console.log(value)
-// } );
-// gui.add( water_params, 'cube_opacity', 0,1 ).step( 0.01 ).onChange( function ( value ) {
-//     cube.material.opacity = value;
-// } );
-// gui.open();
-
 
 var groundGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
 groundGeometry.name = 'PlaneBufferGeometry'
 var groundMaterial = new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0.4 });
 var ground = new THREE.Mesh(groundGeometry, groundMaterial);
+ground.name = 'ground'
 groundGeometry.rotateX(- Math.PI / 2);
 // groundMaterial.wireframe = true
 objects.push(ground);
 scene.add(ground)
+for (const key in originCubePosition) {
+    switch (key) {
+        case 'water':
+            createWater()
+            break;
+        case 'grass':
+            createGrass()
+            break;
+        case 'brick':
+            createBrick()
+            break;
+        case 'door':
+            createDoor()
+            break;
 
-// originCubePosition.forEach(position => {
-//     var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
-//     var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
-//     var cube = new THREE.Mesh(cube_Geo, cube_Material);
-//     cube.position.x = position.x
-//     cube.position.y = position.y
-//     cube.position.z = position.z
-//     objects.push(cube);
+        default:
+            break;
+    }
+    originCubePosition[key].forEach(position => {
+        // var cube_Geo = new THREE.BoxGeometry(50, 50, 50);
+        // var cube_Material = new THREE.MeshLambertMaterial({ color: 0xfeb74c });
+        var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
+        cube.position.x = position.x
+        cube.position.y = position.y
+        cube.position.z = position.z
+        cube.name = key
+        objects.push(cube);
 
-//     scene.add(cube)
-// });
-// const textureLoader = new THREE.TextureLoader();
-// textureLoader.load('textures/Sand_01_basecolor.png', function (map) {
-//     map.wrapS = THREE.RepeatWrapping;
-//     map.wrapT = THREE.RepeatWrapping;
-//     map.anisotropy = 16;
-//     map.repeat.set(4, 4);
-//     groundMaterial.map = map;
-//     groundMaterial.needsUpdate = true;
-// });
-// textureLoader.load('textures/Sand_01_normal.png', function (map) {
-//     map.wrapS = THREE.RepeatWrapping;
-//     map.wrapT = THREE.RepeatWrapping;
-//     map.anisotropy = 16;
-//     map.repeat.set(4, 4);
-//     groundMaterial.normalMap = map;
-//     groundMaterial.needsUpdate = true;
-// })
+        scene.add(cube)
+    })
+}
+
 function onDocumentMouseMove(event) {
     event.preventDefault();//取消事件的默认动作
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
@@ -297,16 +245,14 @@ function onDocumentMouseDown(event) {
             }
         } else {
             var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-            //var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
             voxel.castShadow = true
             scene.add(voxel);
             objects.push(voxel);
-            // originCubePosition.push(voxel.position)
+            // originCubePosition[currentCube].push(voxel.position)
 
         }
-        // console.log(originCubePosition);
         render();
 
     }
@@ -339,3 +285,4 @@ document.addEventListener('pointerdown', onDocumentMouseDown, false);//鼠标点
 document.addEventListener('keydown', onDocumentKeyDown, false);//对shift按键的控制
 document.addEventListener('keyup', onDocumentKeyUp, false);//对shift按键的控制
 console.log("done");
+console.log(originCubePosition);

@@ -22,6 +22,7 @@
   "dependencies": {
     "and": "0.0.3",
     "exports-loader": "^2.0.0",
+    "fs": "0.0.1-security",
     "imports-loader": "^2.0.0",
     "mocha": "^8.3.2",
     "three": "^0.128.0",
