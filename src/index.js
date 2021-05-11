@@ -156,13 +156,6 @@ spotLight.position.set(-25, 450, 25);
 spotLight.castShadow = true;
 spotLight.distance = 2000
 scene.add(spotLight);
-var lightHelper = new THREE.SpotLightHelper(spotLight);
-scene.add(lightHelper);
-
-var shadowCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
-scene.add(shadowCameraHelper);
-
-
 
 function buildGui() {
 
@@ -177,7 +170,7 @@ function buildGui() {
         decay: spotLight.decay,
         focus: spotLight.shadow.focus
     };
-    // console.log(gui.addColor(params, "light color").onChange);
+
     gui.addColor(params, 'light color').onChange(function (val) {
         spotLight.color.setHex(val);
         render();
@@ -189,7 +182,7 @@ function buildGui() {
     });
 
 
-    gui.add(params, 'height', 100, 1000).onChange(function (val) {
+    gui.add(params, 'height', 200, 1000).onChange(function (val) {
         spotLight.position.y = val;
         render();
     });
@@ -350,12 +343,7 @@ function onDocumentKeyUp(event) {
 }
 
 function render() {
-    lightHelper.update();
-
-    shadowCameraHelper.update();
     renderer.render(scene, camera);
-
-
 }
 
 
