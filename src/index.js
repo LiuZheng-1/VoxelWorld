@@ -42,7 +42,7 @@ renderer.setClearColor(0xCCCCCC, 1.0);
 
 var cube_manager = new CUBE_MANAGER(scene);
 const water_params = {
-    color: 'black',
+    color: '#ffffff',
     scale: 0.8,
     flowX: 1,
     flowY: 1,
