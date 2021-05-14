@@ -351,7 +351,7 @@ function onDocumentMouseDown(event) {
             }
         } else {
             // var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-            var voxel = cube_manager.getCube(currentCube)
+            var voxel = cube_manager.getCube(currentCube);
             //var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
@@ -361,10 +361,10 @@ function onDocumentMouseDown(event) {
             scene.add(voxel);
             objects.push(voxel);
             // matrix[0][0][0] {x: -475, y: 25, z: -475}
-            console.log(voxel.position);
-            console.log((voxel.position.x - (-475)) / 50);
-            console.log((voxel.position.y - 25) / 50);
-            console.log((voxel.position.z - (-475)) / 50);
+            // console.log(voxel.position);
+            // console.log((voxel.position.x - (-475)) / 50);
+            // console.log((voxel.position.y - 25) / 50);
+            // console.log((voxel.position.z - (-475)) / 50);
             const x = (voxel.position.x - (-475)) / 50
             const y = (voxel.position.y - 25) / 50
             const z = (voxel.position.z - (-475)) / 50
