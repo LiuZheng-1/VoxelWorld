@@ -3,9 +3,17 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Water } from 'three/examples/jsm/objects/Water2';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
 import { skybox } from './objs/skybox.js'
+import {jsonLoader} from './utils/json_loader'
 import { CUBE_MANAGER} from './cubes/index'
+import { WATER_MANAGER} from './cubes/water_cube'
 
-var origin = '{"grass":[{"x":-475,"y":25,"z":-475},{"x":-475,"y":25,"z":-375},{"x":-475,"y":25,"z":-425},{"x":-425,"y":25,"z":-475},{"x":-425,"y":25,"z":-425},{"x":-425,"y":25,"z":-375},{"x":-425,"y":25,"z":-325},{"x":-475,"y":25,"z":-325},{"x":-475,"y":25,"z":-225},{"x":-425,"y":25,"z":-275},{"x":-475,"y":25,"z":-275},{"x":-425,"y":25,"z":-225},{"x":-375,"y":25,"z":-325},{"x":-375,"y":25,"z":-425},{"x":-375,"y":25,"z":-475},{"x":-375,"y":25,"z":-375},{"x":-375,"y":25,"z":-275},{"x":-475,"y":25,"z":-175},{"x":-175,"y":25,"z":-475},{"x":-175,"y":25,"z":-425},{"x":-225,"y":25,"z":-475},{"x":-225,"y":25,"z":-425},{"x":-225,"y":25,"z":-375},{"x":-325,"y":25,"z":-275},{"x":-375,"y":25,"z":-225},{"x":-425,"y":25,"z":-175},{"x":-475,"y":25,"z":-125},{"x":-125,"y":25,"z":-475},{"x":-475,"y":25,"z":475},{"x":-475,"y":25,"z":425},{"x":-475,"y":25,"z":375},{"x":-475,"y":25,"z":325},{"x":-475,"y":25,"z":275},{"x":-475,"y":25,"z":225},{"x":-475,"y":25,"z":175},{"x":-425,"y":25,"z":475},{"x":-425,"y":25,"z":425},{"x":-425,"y":25,"z":375},{"x":-425,"y":25,"z":325},{"x":-425,"y":25,"z":275},{"x":-425,"y":25,"z":225},{"x":-375,"y":25,"z":275},{"x":-375,"y":25,"z":325},{"x":-375,"y":25,"z":375},{"x":-375,"y":25,"z":425},{"x":-375,"y":25,"z":475},{"x":-325,"y":25,"z":475},{"x":-325,"y":25,"z":425},{"x":-325,"y":25,"z":375},{"x":-325,"y":25,"z":325},{"x":-275,"y":25,"z":375},{"x":-275,"y":25,"z":425},{"x":-275,"y":25,"z":475},{"x":-225,"y":25,"z":475},{"x":-225,"y":25,"z":425},{"x":-175,"y":25,"z":475},{"x":-125,"y":25,"z":475},{"x":-175,"y":25,"z":425},{"x":-225,"y":25,"z":375},{"x":-275,"y":25,"z":325},{"x":-325,"y":25,"z":275},{"x":-375,"y":25,"z":225},{"x":-425,"y":25,"z":175},{"x":-475,"y":25,"z":125},{"x":475,"y":25,"z":475},{"x":475,"y":25,"z":425},{"x":475,"y":25,"z":375},{"x":475,"y":25,"z":325},{"x":475,"y":25,"z":275},{"x":475,"y":25,"z":225},{"x":475,"y":25,"z":175},{"x":475,"y":25,"z":125},{"x":425,"y":25,"z":175},{"x":425,"y":25,"z":475},{"x":425,"y":25,"z":425},{"x":425,"y":25,"z":375},{"x":425,"y":25,"z":275},{"x":425,"y":25,"z":325},{"x":425,"y":25,"z":225},{"x":375,"y":25,"z":225},{"x":375,"y":25,"z":275},{"x":375,"y":25,"z":325},{"x":375,"y":25,"z":375},{"x":375,"y":25,"z":425},{"x":375,"y":25,"z":475},{"x":325,"y":25,"z":475},{"x":325,"y":25,"z":425},{"x":325,"y":25,"z":375},{"x":325,"y":25,"z":325},{"x":325,"y":25,"z":275},{"x":275,"y":25,"z":375},{"x":275,"y":25,"z":425},{"x":275,"y":25,"z":475},{"x":225,"y":25,"z":475},{"x":225,"y":25,"z":425},{"x":225,"y":25,"z":375},{"x":375,"y":25,"z":175},{"x":425,"y":25,"z":125},{"x":475,"y":25,"z":75},{"x":475,"y":25,"z":-75},{"x":475,"y":25,"z":-125},{"x":475,"y":25,"z":-175},{"x":475,"y":25,"z":-225},{"x":475,"y":25,"z":-275},{"x":475,"y":25,"z":-325},{"x":475,"y":25,"z":-375},{"x":475,"y":25,"z":-425},{"x":475,"y":25,"z":-475},{"x":425,"y":25,"z":-475},{"x":375,"y":25,"z":-475},{"x":325,"y":25,"z":-475},{"x":275,"y":25,"z":-475},{"x":225,"y":25,"z":-475},{"x":175,"y":25,"z":-475},{"x":125,"y":25,"z":-475},{"x":75,"y":25,"z":-475},{"x":125,"y":25,"z":-425},{"x":175,"y":25,"z":-425},{"x":275,"y":25,"z":-425},{"x":225,"y":25,"z":-425},{"x":325,"y":25,"z":-425},{"x":375,"y":25,"z":-425},{"x":425,"y":25,"z":-425},{"x":425,"y":25,"z":-375},{"x":375,"y":25,"z":-375},{"x":325,"y":25,"z":-375},{"x":275,"y":25,"z":-375},{"x":225,"y":25,"z":-375},{"x":175,"y":25,"z":-375},{"x":225,"y":25,"z":-325},{"x":275,"y":25,"z":-325},{"x":325,"y":25,"z":-325},{"x":375,"y":25,"z":-325},{"x":425,"y":25,"z":-325},{"x":425,"y":25,"z":-275},{"x":375,"y":25,"z":-275},{"x":325,"y":25,"z":-275},{"x":275,"y":25,"z":-275},{"x":325,"y":25,"z":-225},{"x":375,"y":25,"z":-225},{"x":425,"y":25,"z":-225},{"x":425,"y":25,"z":-175},{"x":375,"y":25,"z":-175},{"x":425,"y":25,"z":-125},{"x":-75,"y":25,"z":475},{"x":-125,"y":25,"z":425},{"x":-175,"y":25,"z":375},{"x":-225,"y":25,"z":325},{"x":-275,"y":25,"z":275},{"x":-325,"y":25,"z":225},{"x":-375,"y":25,"z":175},{"x":-425,"y":25,"z":125},{"x":-475,"y":25,"z":75},{"x":-475,"y":25,"z":-75},{"x":-425,"y":25,"z":-125},{"x":-375,"y":25,"z":-175},{"x":-325,"y":25,"z":-225},{"x":-175,"y":25,"z":-375},{"x":-125,"y":25,"z":-425},{"x":-75,"y":25,"z":-475},{"x":175,"y":25,"z":175},{"x":125,"y":25,"z":175},{"x":125,"y":25,"z":125},{"x":75,"y":25,"z":125},{"x":25,"y":25,"z":175},{"x":25,"y":25,"z":125},{"x":-25,"y":25,"z":125},{"x":-25,"y":25,"z":175},{"x":-125,"y":25,"z":175},{"x":-75,"y":25,"z":175},{"x":-75,"y":25,"z":125},{"x":-75,"y":25,"z":75},{"x":-75,"y":25,"z":25},{"x":-25,"y":25,"z":-225},{"x":25,"y":25,"z":-225},{"x":75,"y":25,"z":-225},{"x":125,"y":25,"z":-225},{"x":225,"y":25,"z":-225},{"x":225,"y":25,"z":-175},{"x":225,"y":25,"z":-125},{"x":175,"y":25,"z":-125},{"x":175,"y":25,"z":-175},{"x":175,"y":25,"z":-225},{"x":125,"y":25,"z":-175},{"x":-325,"y":25,"z":-325}],"water":[{"x":75,"y":25,"z":-25},{"x":125,"y":25,"z":-75},{"x":75,"y":25,"z":-75},{"x":125,"y":25,"z":-125},{"x":75,"y":25,"z":-125},{"x":25,"y":25,"z":-125},{"x":25,"y":25,"z":-25},{"x":25,"y":25,"z":-75},{"x":25,"y":25,"z":75},{"x":25,"y":25,"z":25},{"x":-25,"y":25,"z":75},{"x":-25,"y":25,"z":25},{"x":-25,"y":25,"z":-75},{"x":25,"y":25,"z":-175},{"x":75,"y":25,"z":-175},{"x":-325,"y":25,"z":-475},{"x":-275,"y":25,"z":-475},{"x":-325,"y":25,"z":-425},{"x":-275,"y":25,"z":-425},{"x":-275,"y":25,"z":-375},{"x":-325,"y":25,"z":-375},{"x":-275,"y":25,"z":-325},{"x":-275,"y":25,"z":-275},{"x":-225,"y":25,"z":-325},{"x":-225,"y":25,"z":-275},{"x":-225,"y":25,"z":-225},{"x":-175,"y":25,"z":-225},{"x":-175,"y":25,"z":-175},{"x":-125,"y":25,"z":-225},{"x":-125,"y":25,"z":-175},{"x":-125,"y":25,"z":-125},{"x":-75,"y":25,"z":-125},{"x":-25,"y":25,"z":-125},{"x":-75,"y":25,"z":-75},{"x":-25,"y":25,"z":-25},{"x":-75,"y":25,"z":-25},{"x":125,"y":25,"z":75},{"x":75,"y":25,"z":25},{"x":75,"y":25,"z":75},{"x":175,"y":25,"z":75},{"x":175,"y":25,"z":125},{"x":225,"y":25,"z":125},{"x":225,"y":25,"z":175},{"x":275,"y":25,"z":125},{"x":275,"y":25,"z":175},{"x":275,"y":25,"z":225},{"x":325,"y":25,"z":225},{"x":275,"y":25,"z":275},{"x":275,"y":25,"z":325},{"x":225,"y":25,"z":275},{"x":225,"y":25,"z":325},{"x":175,"y":25,"z":325},{"x":125,"y":25,"z":325},{"x":125,"y":25,"z":375},{"x":175,"y":25,"z":375},{"x":175,"y":25,"z":425},{"x":125,"y":25,"z":425},{"x":125,"y":25,"z":475},{"x":75,"y":25,"z":425},{"x":75,"y":25,"z":475},{"x":175,"y":25,"z":475}],"brick":[{"x":25,"y":25,"z":475},{"x":25,"y":25,"z":425},{"x":75,"y":25,"z":375},{"x":175,"y":25,"z":275},{"x":225,"y":25,"z":225},{"x":325,"y":25,"z":25},{"x":325,"y":25,"z":75},{"x":325,"y":25,"z":-25},{"x":325,"y":25,"z":-125},{"x":325,"y":25,"z":-75},{"x":325,"y":25,"z":-175},{"x":375,"y":25,"z":-125},{"x":375,"y":25,"z":-75},{"x":375,"y":25,"z":-25},{"x":375,"y":25,"z":25},{"x":375,"y":25,"z":75},{"x":375,"y":25,"z":125},{"x":425,"y":25,"z":75},{"x":425,"y":25,"z":25},{"x":425,"y":25,"z":-25},{"x":425,"y":25,"z":-75},{"x":475,"y":25,"z":25},{"x":475,"y":25,"z":-25},{"x":25,"y":25,"z":-475},{"x":-25,"y":25,"z":-475},{"x":25,"y":25,"z":-425},{"x":75,"y":25,"z":-425},{"x":-25,"y":25,"z":-425},{"x":-75,"y":25,"z":-425},{"x":-125,"y":25,"z":-375},{"x":25,"y":25,"z":-375},{"x":75,"y":25,"z":-375},{"x":125,"y":25,"z":-375},{"x":175,"y":25,"z":-325},{"x":125,"y":25,"z":-325},{"x":75,"y":25,"z":-325},{"x":-25,"y":25,"z":-325},{"x":25,"y":25,"z":-325},{"x":-75,"y":25,"z":-325},{"x":-125,"y":25,"z":-325},{"x":-175,"y":25,"z":-325},{"x":225,"y":25,"z":-275},{"x":175,"y":25,"z":-275},{"x":125,"y":25,"z":-275},{"x":25,"y":25,"z":-275},{"x":75,"y":25,"z":-275},{"x":-25,"y":25,"z":-275},{"x":-75,"y":25,"z":-275},{"x":-275,"y":25,"z":-225},{"x":-275,"y":25,"z":-175},{"x":-275,"y":25,"z":-125},{"x":-275,"y":25,"z":-75},{"x":-275,"y":25,"z":-25},{"x":-275,"y":25,"z":25},{"x":-275,"y":25,"z":75},{"x":-275,"y":25,"z":125},{"x":-275,"y":25,"z":175},{"x":-275,"y":25,"z":225},{"x":-325,"y":25,"z":175},{"x":-325,"y":25,"z":125},{"x":-325,"y":25,"z":75},{"x":-325,"y":25,"z":-25},{"x":-325,"y":25,"z":25},{"x":-325,"y":25,"z":-75},{"x":-325,"y":25,"z":-125},{"x":-325,"y":25,"z":-175},{"x":-375,"y":25,"z":-125},{"x":-375,"y":25,"z":-75},{"x":-375,"y":25,"z":-25},{"x":-375,"y":25,"z":25},{"x":-375,"y":25,"z":75},{"x":-375,"y":25,"z":125},{"x":-425,"y":25,"z":75},{"x":-425,"y":25,"z":25},{"x":-425,"y":25,"z":-25},{"x":-425,"y":25,"z":-75},{"x":-475,"y":25,"z":-25},{"x":175,"y":25,"z":225},{"x":125,"y":25,"z":225},{"x":75,"y":25,"z":225},{"x":25,"y":25,"z":225},{"x":-25,"y":25,"z":225},{"x":-75,"y":25,"z":225},{"x":-125,"y":25,"z":225},{"x":-175,"y":25,"z":225},{"x":-225,"y":25,"z":225},{"x":-225,"y":25,"z":275},{"x":-175,"y":25,"z":275},{"x":-125,"y":25,"z":275},{"x":-75,"y":25,"z":275},{"x":-25,"y":25,"z":275},{"x":25,"y":25,"z":275},{"x":75,"y":25,"z":275},{"x":125,"y":25,"z":275},{"x":75,"y":25,"z":325},{"x":25,"y":25,"z":325},{"x":-75,"y":25,"z":325},{"x":-25,"y":25,"z":325},{"x":-125,"y":25,"z":325},{"x":-175,"y":25,"z":325},{"x":-125,"y":25,"z":375},{"x":-75,"y":25,"z":375},{"x":-25,"y":25,"z":375},{"x":25,"y":25,"z":375},{"x":-25,"y":25,"z":425},{"x":-75,"y":25,"z":425},{"x":-25,"y":25,"z":475},{"x":-475,"y":25,"z":25},{"x":275,"y":25,"z":25},{"x":275,"y":25,"z":-25},{"x":275,"y":25,"z":-75},{"x":275,"y":25,"z":-125},{"x":275,"y":25,"z":-175},{"x":275,"y":25,"z":-225},{"x":-225,"y":25,"z":-175},{"x":-225,"y":25,"z":-125},{"x":-225,"y":25,"z":25},{"x":-225,"y":25,"z":-25},{"x":-225,"y":25,"z":75},{"x":-225,"y":25,"z":175},{"x":-175,"y":25,"z":175},{"x":-125,"y":25,"z":125},{"x":-175,"y":25,"z":125},{"x":-225,"y":25,"z":125},{"x":-175,"y":25,"z":75},{"x":75,"y":25,"z":175},{"x":325,"y":25,"z":125},{"x":325,"y":25,"z":175},{"x":275,"y":25,"z":75},{"x":225,"y":25,"z":25},{"x":225,"y":25,"z":75},{"x":225,"y":25,"z":-75},{"x":225,"y":25,"z":-25},{"x":175,"y":25,"z":-75},{"x":175,"y":25,"z":-25},{"x":175,"y":25,"z":25},{"x":125,"y":25,"z":-25},{"x":125,"y":25,"z":25},{"x":-125,"y":25,"z":25},{"x":-125,"y":25,"z":75},{"x":-125,"y":25,"z":-75},{"x":-175,"y":25,"z":-25},{"x":-125,"y":25,"z":-25},{"x":-175,"y":25,"z":25},{"x":-175,"y":25,"z":-125},{"x":-175,"y":25,"z":-75},{"x":-225,"y":25,"z":-75},{"x":-75,"y":25,"z":-225},{"x":-75,"y":25,"z":-175},{"x":-25,"y":25,"z":-175},{"x":-125,"y":25,"z":-275},{"x":-75,"y":25,"z":-375},{"x":-25,"y":25,"z":-375},{"x":-175,"y":25,"z":-275}],"door":[]}'
+// var origin = '{"grass":[{"x":-475,"y":25,"z":-475},{"x":-475,"y":25,"z":-375},{"x":-475,"y":25,"z":-425},{"x":-425,"y":25,"z":-475},{"x":-425,"y":25,"z":-425},{"x":-425,"y":25,"z":-375},{"x":-425,"y":25,"z":-325},{"x":-475,"y":25,"z":-325},{"x":-475,"y":25,"z":-225},{"x":-425,"y":25,"z":-275},{"x":-475,"y":25,"z":-275},{"x":-425,"y":25,"z":-225},{"x":-375,"y":25,"z":-325},{"x":-375,"y":25,"z":-425},{"x":-375,"y":25,"z":-475},{"x":-375,"y":25,"z":-375},{"x":-375,"y":25,"z":-275},{"x":-475,"y":25,"z":-175},{"x":-175,"y":25,"z":-475},{"x":-175,"y":25,"z":-425},{"x":-225,"y":25,"z":-475},{"x":-225,"y":25,"z":-425},{"x":-225,"y":25,"z":-375},{"x":-325,"y":25,"z":-275},{"x":-375,"y":25,"z":-225},{"x":-425,"y":25,"z":-175},{"x":-475,"y":25,"z":-125},{"x":-125,"y":25,"z":-475},{"x":-475,"y":25,"z":475},{"x":-475,"y":25,"z":425},{"x":-475,"y":25,"z":375},{"x":-475,"y":25,"z":325},{"x":-475,"y":25,"z":275},{"x":-475,"y":25,"z":225},{"x":-475,"y":25,"z":175},{"x":-425,"y":25,"z":475},{"x":-425,"y":25,"z":425},{"x":-425,"y":25,"z":375},{"x":-425,"y":25,"z":325},{"x":-425,"y":25,"z":275},{"x":-425,"y":25,"z":225},{"x":-375,"y":25,"z":275},{"x":-375,"y":25,"z":325},{"x":-375,"y":25,"z":375},{"x":-375,"y":25,"z":425},{"x":-375,"y":25,"z":475},{"x":-325,"y":25,"z":475},{"x":-325,"y":25,"z":425},{"x":-325,"y":25,"z":375},{"x":-325,"y":25,"z":325},{"x":-275,"y":25,"z":375},{"x":-275,"y":25,"z":425},{"x":-275,"y":25,"z":475},{"x":-225,"y":25,"z":475},{"x":-225,"y":25,"z":425},{"x":-175,"y":25,"z":475},{"x":-125,"y":25,"z":475},{"x":-175,"y":25,"z":425},{"x":-225,"y":25,"z":375},{"x":-275,"y":25,"z":325},{"x":-325,"y":25,"z":275},{"x":-375,"y":25,"z":225},{"x":-425,"y":25,"z":175},{"x":-475,"y":25,"z":125},{"x":475,"y":25,"z":475},{"x":475,"y":25,"z":425},{"x":475,"y":25,"z":375},{"x":475,"y":25,"z":325},{"x":475,"y":25,"z":275},{"x":475,"y":25,"z":225},{"x":475,"y":25,"z":175},{"x":475,"y":25,"z":125},{"x":425,"y":25,"z":175},{"x":425,"y":25,"z":475},{"x":425,"y":25,"z":425},{"x":425,"y":25,"z":375},{"x":425,"y":25,"z":275},{"x":425,"y":25,"z":325},{"x":425,"y":25,"z":225},{"x":375,"y":25,"z":225},{"x":375,"y":25,"z":275},{"x":375,"y":25,"z":325},{"x":375,"y":25,"z":375},{"x":375,"y":25,"z":425},{"x":375,"y":25,"z":475},{"x":325,"y":25,"z":475},{"x":325,"y":25,"z":425},{"x":325,"y":25,"z":375},{"x":325,"y":25,"z":325},{"x":325,"y":25,"z":275},{"x":275,"y":25,"z":375},{"x":275,"y":25,"z":425},{"x":275,"y":25,"z":475},{"x":225,"y":25,"z":475},{"x":225,"y":25,"z":425},{"x":225,"y":25,"z":375},{"x":375,"y":25,"z":175},{"x":425,"y":25,"z":125},{"x":475,"y":25,"z":75},{"x":475,"y":25,"z":-75},{"x":475,"y":25,"z":-125},{"x":475,"y":25,"z":-175},{"x":475,"y":25,"z":-225},{"x":475,"y":25,"z":-275},{"x":475,"y":25,"z":-325},{"x":475,"y":25,"z":-375},{"x":475,"y":25,"z":-425},{"x":475,"y":25,"z":-475},{"x":425,"y":25,"z":-475},{"x":375,"y":25,"z":-475},{"x":325,"y":25,"z":-475},{"x":275,"y":25,"z":-475},{"x":225,"y":25,"z":-475},{"x":175,"y":25,"z":-475},{"x":125,"y":25,"z":-475},{"x":75,"y":25,"z":-475},{"x":125,"y":25,"z":-425},{"x":175,"y":25,"z":-425},{"x":275,"y":25,"z":-425},{"x":225,"y":25,"z":-425},{"x":325,"y":25,"z":-425},{"x":375,"y":25,"z":-425},{"x":425,"y":25,"z":-425},{"x":425,"y":25,"z":-375},{"x":375,"y":25,"z":-375},{"x":325,"y":25,"z":-375},{"x":275,"y":25,"z":-375},{"x":225,"y":25,"z":-375},{"x":175,"y":25,"z":-375},{"x":225,"y":25,"z":-325},{"x":275,"y":25,"z":-325},{"x":325,"y":25,"z":-325},{"x":375,"y":25,"z":-325},{"x":425,"y":25,"z":-325},{"x":425,"y":25,"z":-275},{"x":375,"y":25,"z":-275},{"x":325,"y":25,"z":-275},{"x":275,"y":25,"z":-275},{"x":325,"y":25,"z":-225},{"x":375,"y":25,"z":-225},{"x":425,"y":25,"z":-225},{"x":425,"y":25,"z":-175},{"x":375,"y":25,"z":-175},{"x":425,"y":25,"z":-125},{"x":-75,"y":25,"z":475},{"x":-125,"y":25,"z":425},{"x":-175,"y":25,"z":375},{"x":-225,"y":25,"z":325},{"x":-275,"y":25,"z":275},{"x":-325,"y":25,"z":225},{"x":-375,"y":25,"z":175},{"x":-425,"y":25,"z":125},{"x":-475,"y":25,"z":75},{"x":-475,"y":25,"z":-75},{"x":-425,"y":25,"z":-125},{"x":-375,"y":25,"z":-175},{"x":-325,"y":25,"z":-225},{"x":-175,"y":25,"z":-375},{"x":-125,"y":25,"z":-425},{"x":-75,"y":25,"z":-475},{"x":175,"y":25,"z":175},{"x":125,"y":25,"z":175},{"x":125,"y":25,"z":125},{"x":75,"y":25,"z":125},{"x":25,"y":25,"z":175},{"x":25,"y":25,"z":125},{"x":-25,"y":25,"z":125},{"x":-25,"y":25,"z":175},{"x":-125,"y":25,"z":175},{"x":-75,"y":25,"z":175},{"x":-75,"y":25,"z":125},{"x":-75,"y":25,"z":75},{"x":-75,"y":25,"z":25},{"x":-25,"y":25,"z":-225},{"x":25,"y":25,"z":-225},{"x":75,"y":25,"z":-225},{"x":125,"y":25,"z":-225},{"x":225,"y":25,"z":-225},{"x":225,"y":25,"z":-175},{"x":225,"y":25,"z":-125},{"x":175,"y":25,"z":-125},{"x":175,"y":25,"z":-175},{"x":175,"y":25,"z":-225},{"x":125,"y":25,"z":-175},{"x":-325,"y":25,"z":-325}],"water":[{"x":75,"y":25,"z":-25},{"x":125,"y":25,"z":-75},{"x":75,"y":25,"z":-75},{"x":125,"y":25,"z":-125},{"x":75,"y":25,"z":-125},{"x":25,"y":25,"z":-125},{"x":25,"y":25,"z":-25},{"x":25,"y":25,"z":-75},{"x":25,"y":25,"z":75},{"x":25,"y":25,"z":25},{"x":-25,"y":25,"z":75},{"x":-25,"y":25,"z":25},{"x":-25,"y":25,"z":-75},{"x":25,"y":25,"z":-175},{"x":75,"y":25,"z":-175},{"x":-325,"y":25,"z":-475},{"x":-275,"y":25,"z":-475},{"x":-325,"y":25,"z":-425},{"x":-275,"y":25,"z":-425},{"x":-275,"y":25,"z":-375},{"x":-325,"y":25,"z":-375},{"x":-275,"y":25,"z":-325},{"x":-275,"y":25,"z":-275},{"x":-225,"y":25,"z":-325},{"x":-225,"y":25,"z":-275},{"x":-225,"y":25,"z":-225},{"x":-175,"y":25,"z":-225},{"x":-175,"y":25,"z":-175},{"x":-125,"y":25,"z":-225},{"x":-125,"y":25,"z":-175},{"x":-125,"y":25,"z":-125},{"x":-75,"y":25,"z":-125},{"x":-25,"y":25,"z":-125},{"x":-75,"y":25,"z":-75},{"x":-25,"y":25,"z":-25},{"x":-75,"y":25,"z":-25},{"x":125,"y":25,"z":75},{"x":75,"y":25,"z":25},{"x":75,"y":25,"z":75},{"x":175,"y":25,"z":75},{"x":175,"y":25,"z":125},{"x":225,"y":25,"z":125},{"x":225,"y":25,"z":175},{"x":275,"y":25,"z":125},{"x":275,"y":25,"z":175},{"x":275,"y":25,"z":225},{"x":325,"y":25,"z":225},{"x":275,"y":25,"z":275},{"x":275,"y":25,"z":325},{"x":225,"y":25,"z":275},{"x":225,"y":25,"z":325},{"x":175,"y":25,"z":325},{"x":125,"y":25,"z":325},{"x":125,"y":25,"z":375},{"x":175,"y":25,"z":375},{"x":175,"y":25,"z":425},{"x":125,"y":25,"z":425},{"x":125,"y":25,"z":475},{"x":75,"y":25,"z":425},{"x":75,"y":25,"z":475},{"x":175,"y":25,"z":475}],"brick":[{"x":25,"y":25,"z":475},{"x":25,"y":25,"z":425},{"x":75,"y":25,"z":375},{"x":175,"y":25,"z":275},{"x":225,"y":25,"z":225},{"x":325,"y":25,"z":25},{"x":325,"y":25,"z":75},{"x":325,"y":25,"z":-25},{"x":325,"y":25,"z":-125},{"x":325,"y":25,"z":-75},{"x":325,"y":25,"z":-175},{"x":375,"y":25,"z":-125},{"x":375,"y":25,"z":-75},{"x":375,"y":25,"z":-25},{"x":375,"y":25,"z":25},{"x":375,"y":25,"z":75},{"x":375,"y":25,"z":125},{"x":425,"y":25,"z":75},{"x":425,"y":25,"z":25},{"x":425,"y":25,"z":-25},{"x":425,"y":25,"z":-75},{"x":475,"y":25,"z":25},{"x":475,"y":25,"z":-25},{"x":25,"y":25,"z":-475},{"x":-25,"y":25,"z":-475},{"x":25,"y":25,"z":-425},{"x":75,"y":25,"z":-425},{"x":-25,"y":25,"z":-425},{"x":-75,"y":25,"z":-425},{"x":-125,"y":25,"z":-375},{"x":25,"y":25,"z":-375},{"x":75,"y":25,"z":-375},{"x":125,"y":25,"z":-375},{"x":175,"y":25,"z":-325},{"x":125,"y":25,"z":-325},{"x":75,"y":25,"z":-325},{"x":-25,"y":25,"z":-325},{"x":25,"y":25,"z":-325},{"x":-75,"y":25,"z":-325},{"x":-125,"y":25,"z":-325},{"x":-175,"y":25,"z":-325},{"x":225,"y":25,"z":-275},{"x":175,"y":25,"z":-275},{"x":125,"y":25,"z":-275},{"x":25,"y":25,"z":-275},{"x":75,"y":25,"z":-275},{"x":-25,"y":25,"z":-275},{"x":-75,"y":25,"z":-275},{"x":-275,"y":25,"z":-225},{"x":-275,"y":25,"z":-175},{"x":-275,"y":25,"z":-125},{"x":-275,"y":25,"z":-75},{"x":-275,"y":25,"z":-25},{"x":-275,"y":25,"z":25},{"x":-275,"y":25,"z":75},{"x":-275,"y":25,"z":125},{"x":-275,"y":25,"z":175},{"x":-275,"y":25,"z":225},{"x":-325,"y":25,"z":175},{"x":-325,"y":25,"z":125},{"x":-325,"y":25,"z":75},{"x":-325,"y":25,"z":-25},{"x":-325,"y":25,"z":25},{"x":-325,"y":25,"z":-75},{"x":-325,"y":25,"z":-125},{"x":-325,"y":25,"z":-175},{"x":-375,"y":25,"z":-125},{"x":-375,"y":25,"z":-75},{"x":-375,"y":25,"z":-25},{"x":-375,"y":25,"z":25},{"x":-375,"y":25,"z":75},{"x":-375,"y":25,"z":125},{"x":-425,"y":25,"z":75},{"x":-425,"y":25,"z":25},{"x":-425,"y":25,"z":-25},{"x":-425,"y":25,"z":-75},{"x":-475,"y":25,"z":-25},{"x":175,"y":25,"z":225},{"x":125,"y":25,"z":225},{"x":75,"y":25,"z":225},{"x":25,"y":25,"z":225},{"x":-25,"y":25,"z":225},{"x":-75,"y":25,"z":225},{"x":-125,"y":25,"z":225},{"x":-175,"y":25,"z":225},{"x":-225,"y":25,"z":225},{"x":-225,"y":25,"z":275},{"x":-175,"y":25,"z":275},{"x":-125,"y":25,"z":275},{"x":-75,"y":25,"z":275},{"x":-25,"y":25,"z":275},{"x":25,"y":25,"z":275},{"x":75,"y":25,"z":275},{"x":125,"y":25,"z":275},{"x":75,"y":25,"z":325},{"x":25,"y":25,"z":325},{"x":-75,"y":25,"z":325},{"x":-25,"y":25,"z":325},{"x":-125,"y":25,"z":325},{"x":-175,"y":25,"z":325},{"x":-125,"y":25,"z":375},{"x":-75,"y":25,"z":375},{"x":-25,"y":25,"z":375},{"x":25,"y":25,"z":375},{"x":-25,"y":25,"z":425},{"x":-75,"y":25,"z":425},{"x":-25,"y":25,"z":475},{"x":-475,"y":25,"z":25},{"x":275,"y":25,"z":25},{"x":275,"y":25,"z":-25},{"x":275,"y":25,"z":-75},{"x":275,"y":25,"z":-125},{"x":275,"y":25,"z":-175},{"x":275,"y":25,"z":-225},{"x":-225,"y":25,"z":-175},{"x":-225,"y":25,"z":-125},{"x":-225,"y":25,"z":25},{"x":-225,"y":25,"z":-25},{"x":-225,"y":25,"z":75},{"x":-225,"y":25,"z":175},{"x":-175,"y":25,"z":175},{"x":-125,"y":25,"z":125},{"x":-175,"y":25,"z":125},{"x":-225,"y":25,"z":125},{"x":-175,"y":25,"z":75},{"x":75,"y":25,"z":175},{"x":325,"y":25,"z":125},{"x":325,"y":25,"z":175},{"x":275,"y":25,"z":75},{"x":225,"y":25,"z":25},{"x":225,"y":25,"z":75},{"x":225,"y":25,"z":-75},{"x":225,"y":25,"z":-25},{"x":175,"y":25,"z":-75},{"x":175,"y":25,"z":-25},{"x":175,"y":25,"z":25},{"x":125,"y":25,"z":-25},{"x":125,"y":25,"z":25},{"x":-125,"y":25,"z":25},{"x":-125,"y":25,"z":75},{"x":-125,"y":25,"z":-75},{"x":-175,"y":25,"z":-25},{"x":-125,"y":25,"z":-25},{"x":-175,"y":25,"z":25},{"x":-175,"y":25,"z":-125},{"x":-175,"y":25,"z":-75},{"x":-225,"y":25,"z":-75},{"x":-75,"y":25,"z":-225},{"x":-75,"y":25,"z":-175},{"x":-25,"y":25,"z":-175},{"x":-125,"y":25,"z":-275},{"x":-75,"y":25,"z":-375},{"x":-25,"y":25,"z":-375},{"x":-175,"y":25,"z":-275}],"door":[]}'
+// var originCubePosition = JSON.parse(origin)
+
+var originCubePosition={
+    "brick":[],"water":[],"grass":[],"door":[],"glass":[]
+}
+
 var rollOverGeo, rollOverMaterial, rollOverMesh
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -17,7 +25,56 @@ var gui
 
 var matrix = []
 
-var cube_list = ["brick","water","grass"]
+var cube_list = ["brick","water","grass","door","glass"]
+var currentCube = cube_list[0]
+/*
+ * Setting the basic conponents
+ *
+ */
+var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);//设置透视投影的相机
+camera.position.set(5, 8, 13);//设置相机坐标
+camera.lookAt(new THREE.Vector3());//设置视野的中心坐标
+
+var scene = new THREE.Scene();
+var ratio = window.innerWidth / window.innerHeight;
+var renderer = new THREE.WebGLRenderer();
+renderer.shadowMap.enabled = true;
+
+
+var controls = new OrbitControls(camera, renderer.domElement);
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+renderer.setClearColor(0xCCCCCC, 1.0);
+var clock = new THREE.Clock();
+
+
+var cube_manager = new CUBE_MANAGER(scene);
+const water_params = {
+    color: '#ffffff',
+    scale: 0.8,
+    flowX: 1,
+    flowY: 1,
+    cube_color: "#20a8e6",
+    cube_opacity: 0.5,
+};
+var water_manager = new WATER_MANAGER(scene,water_params);
+
+
+
+var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
+camera.add(cameralight);
+scene.add(camera);
+const directionalLight = new THREE.DirectionalLight(0xcccccc, 0.6);
+directionalLight.position.set(- 1, 1, 1);
+scene.add(directionalLight);
+
+var spotLight = new THREE.SpotLight(0xffffff)
+spotLight.position.set(-25, 450, 25);
+spotLight.castShadow = true;
+spotLight.distance = 2000
+scene.add(spotLight);
+
+
 
 for (let x = 0; x < 20; x++) {
     matrix.push([])
@@ -34,49 +91,21 @@ for (let x = 0; x < 20; x++) {
 // matrix[1][0][0] x + 50 * 1
 
 
-var originCubePosition = JSON.parse(origin)
 
 
 
-var currentCube = ''
+
 
 var createPreview = function () {
     scene.remove(rollOverMesh)
-    rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
+    rollOverGeo = new THREE.BoxGeometry(1, 1, 1);
     rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
     rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
     scene.add(rollOverMesh);
 }
+createPreview();
 
-// var createWater = function () {
-//     createPreview();
-//     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-//     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') });
-//     currentCube = 'water'
-// }
 
-// var createGrass = function () {
-//     createPreview();
-//     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-//     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') });
-//     currentCube = 'grass'
-// }
-
-// var createBrick = function () {
-//     createPreview();
-//     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-//     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') });
-//     currentCube = 'brick'
-// }
-//MC材质大门
-var createDoor = function () {
-    createPreview();
-    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    var texture = new THREE.TextureLoader().load('../dist/textures/minecraft/door_spruce_lower.png');
-    texture.magFilter = THREE.NearestFilter;//指定纹理的放大方式, nearestFilter最邻近过滤
-    cubeMaterial = new THREE.MeshLambertMaterial({ map: texture });
-    currentCube = 'door'
-}
 
 var exportCubePosition = function () {
     const ary = {
@@ -123,72 +152,24 @@ cube_list.forEach(cube_name => {
     }
     info.appendChild(element);
 });
-// var waterElement = document.createElement('button')
-// waterElement.id = 'waterCube'
-// waterElement.onclick = createWater
-// waterElement.innerHTML = 'waterCube'
-// info.appendChild(waterElement);
+var element = document.createElement('button');
+element.id = "Save";
+element.innerHTML = "Save";
+element.onclick = ()=>{
+    var aLink = document.createElement('a');
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 
-// var grassElement = document.createElement('button')
-// grassElement.id = 'grassCube'
-// grassElement.onclick = createGrass
-// grassElement.innerHTML = 'grassCube'
+    var blob = new Blob([JSON.stringify(originCubePosition)]);
+    // var evt = document.createEvent("HTMLEvents");
+    // evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
+    aLink.download = "saved_map.json";
+    aLink.href = URL.createObjectURL(blob);
+    aLink.dispatchEvent(evt);
+    console.log(originCubePosition)
+}
+info.appendChild(element);
 
-// info.appendChild(grassElement);
-
-// var brickElement = document.createElement('button')
-// brickElement.id = 'brickCube'
-// brickElement.onclick = createBrick
-// brickElement.innerHTML = 'brickCube'
-// info.appendChild(brickElement);
-
-// var doorElement = document.createElement('button')
-// doorElement.id = 'doorCube'
-// doorElement.onclick = createDoor
-// doorElement.innerHTML = 'doorCube'
-// info.appendChild(doorElement);
-
-// var doorElement = document.createElement('button')
-// doorElement.id = 'export'
-// doorElement.onclick = exportCubePosition
-// doorElement.innerHTML = 'export'
-// info.appendChild(doorElement);
-
-
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);//设置透视投影的相机
-camera.position.set(500, 800, 1300);//设置相机坐标
-camera.lookAt(new THREE.Vector3());//设置视野的中心坐标
-
-var scene = new THREE.Scene();
-var ratio = window.innerWidth / window.innerHeight;
-var renderer = new THREE.WebGLRenderer();
-renderer.shadowMap.enabled = true;
-
-
-var controls = new OrbitControls(camera, renderer.domElement);
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-renderer.setClearColor(0xCCCCCC, 1.0);
-
-
-var clock = new THREE.Clock();
-
-
-var cube_manager = new CUBE_MANAGER(scene);
-
-
-var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
-camera.add(cameralight);
-scene.add(camera);
-const directionalLight = new THREE.DirectionalLight(0xcccccc, 0.6);
-directionalLight.position.set(- 1, 1, 1);
-scene.add(directionalLight);
-
-var spotLight = new THREE.SpotLight(0xffffff)
-spotLight.position.set(-25, 450, 25);
-spotLight.castShadow = true;
-spotLight.distance = 2000
-scene.add(spotLight);
 
 function buildGui() {
 
@@ -265,61 +246,48 @@ var MyResize = function () {
 //link the resize of the window to the update of the camera
 window.addEventListener('resize', MyResize);
 
-const water_params = {
-    color: '#ffffff',
-    scale: 0.5,
-    flowX: 1,
-    flowY: 1,
-    cube_color: "#20a8e6",
-    cube_opacity: 0.5,
-};
-
 scene.background = skybox();
 
 var groundGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
 groundGeometry.name = 'PlaneBufferGeometry'
 var groundMaterial = new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0.4 });
+// var groundGeometry = new THREE.BoxGeometry(50, 50,50);
 var ground = new THREE.Mesh(groundGeometry, groundMaterial);
 ground.name = 'ground'
 groundGeometry.rotateX(- Math.PI / 2);
 objects.push(ground);
 scene.add(ground)
-// for (const key in originCubePosition) {
-//     switch (key) {
-//         case 'water':
-//             createWater()
-//             break;
-//         case 'grass':
-//             createGrass()
-//             break;
-//         case 'brick':
-//             createBrick()
-//             break;
-//         case 'door':
-//             createDoor()
-//             break;
 
-//         default:
-//             break;
-//     }
-//     originCubePosition[key].forEach(position => {
-//         var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
-//         cube.position.x = position.x
-//         cube.position.y = position.y
-//         cube.position.z = position.z
-//         cube.receiveShadow = true
-//         cube.castShadow = position.z === -525 ? true : false
-//         cube.name = key
-//         objects.push(cube);
 
-//         const x = (cube.position.x - (-475)) / 50
-//         const y = (cube.position.y - 25) / 50
-//         const z = (cube.position.z - (-475)) / 50
-//         matrix[x][y][z] = cube.name
 
-//         scene.add(cube)
-//     })
-// }
+var load_achieve = (achieve)=>{
+    for (let i in cube_list){
+        if(!achieve[cube_list[i]]) continue;
+        achieve[cube_list[i]].forEach(position=>{
+            var cube = cube_manager.getCube(cube_list[i]);
+            cube.position.x = position.x
+            cube.position.y = position.y
+            cube.position.z = position.z
+            cube.receiveShadow = true
+            cube.castShadow = position.z === -525 ? true : false
+            cube.name = cube_list[i]
+            objects.push(cube);
+    
+            const x = cube.position.x 
+            const y = cube.position.y
+            const z = cube.position.z 
+            // matrix[x][y][z] = cube.name
+            scene.add(cube)
+        })
+    }
+    console.log("load success")
+}
+// 读取
+jsonLoader("./json_archives/saved_map.json",(json)=>{
+    load_achieve(json);
+    originCubePosition = json;
+})
+
 
 console.log(JSON.stringify(matrix));
 
@@ -330,8 +298,10 @@ function onDocumentMouseMove(event) {
     var intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0 && rollOverMesh) {
         var intersect = intersects[0];
-        rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
-        rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+        // console.log(intersects);
+        rollOverMesh.position.copy(intersect.point).add(intersect.face.normal.divideScalar(2));
+        // rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+        rollOverMesh.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
     }
     render();
 
@@ -346,36 +316,43 @@ function onDocumentMouseDown(event) {
         var intersect = intersects[0];
         if (isShiftDown) {
             if (intersect.object != ground) {
+                if (intersect.object.name=="water"){
+                    let p = intersect.object.position;
+                    water_manager.remove(p.x,p.y,p.z);
+                }
                 scene.remove(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
             // var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
             var voxel = cube_manager.getCube(currentCube);
+    
             //var voxel = WaterCube(water_params);
-            voxel.position.copy(intersect.point).add(intersect.face.normal);
-            voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+            voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
+            // voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+            voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
             voxel.castShadow = true
             // voxel.receiveShadow = true
             voxel.name = currentCube
             scene.add(voxel);
             objects.push(voxel);
             // matrix[0][0][0] {x: -475, y: 25, z: -475}
-            // console.log(voxel.position);
+            console.log(voxel.position);
+            if(currentCube=="water"){
+                water_manager.add_water(voxel.position.x,voxel.position.y,voxel.position.z);
+            }
             // console.log((voxel.position.x - (-475)) / 50);
             // console.log((voxel.position.y - 25) / 50);
             // console.log((voxel.position.z - (-475)) / 50);
-            const x = (voxel.position.x - (-475)) / 50
-            const y = (voxel.position.y - 25) / 50
-            const z = (voxel.position.z - (-475)) / 50
-            matrix[x][y][z] = voxel.name
-            // originCubePosition[currentCube].push(voxel.position)
+            // const x = (voxel.position.x - (-475)) / 50
+            // const y = (voxel.position.y - 25) / 50
+            // const z = (voxel.position.z - (-475)) / 50
+            // matrix[x][y][z] = voxel.name
+            originCubePosition[currentCube].push(voxel.position)
 
         }
         render();
-
     }
-
 }
 
 function onDocumentKeyDown(event) {

@@ -1,4 +1,4 @@
-var jsonLoader = (url,callback)=>{
+export function  jsonLoader(url,callback){
     var request = new XMLHttpRequest();
     request.open("get",url);
     request.send(null);
