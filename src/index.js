@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Water } from 'three/examples/jsm/objects/Water2';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
-import { skybox } from './skybox.js'
+import { skybox } from './objs/skybox.js'
+import { CUBE_MANAGER} from './cubes/index'
 
 var origin = '{"grass":[{"x":-475,"y":25,"z":-475},{"x":-475,"y":25,"z":-375},{"x":-475,"y":25,"z":-425},{"x":-425,"y":25,"z":-475},{"x":-425,"y":25,"z":-425},{"x":-425,"y":25,"z":-375},{"x":-425,"y":25,"z":-325},{"x":-475,"y":25,"z":-325},{"x":-475,"y":25,"z":-225},{"x":-425,"y":25,"z":-275},{"x":-475,"y":25,"z":-275},{"x":-425,"y":25,"z":-225},{"x":-375,"y":25,"z":-325},{"x":-375,"y":25,"z":-425},{"x":-375,"y":25,"z":-475},{"x":-375,"y":25,"z":-375},{"x":-375,"y":25,"z":-275},{"x":-475,"y":25,"z":-175},{"x":-175,"y":25,"z":-475},{"x":-175,"y":25,"z":-425},{"x":-225,"y":25,"z":-475},{"x":-225,"y":25,"z":-425},{"x":-225,"y":25,"z":-375},{"x":-325,"y":25,"z":-275},{"x":-375,"y":25,"z":-225},{"x":-425,"y":25,"z":-175},{"x":-475,"y":25,"z":-125},{"x":-125,"y":25,"z":-475},{"x":-475,"y":25,"z":475},{"x":-475,"y":25,"z":425},{"x":-475,"y":25,"z":375},{"x":-475,"y":25,"z":325},{"x":-475,"y":25,"z":275},{"x":-475,"y":25,"z":225},{"x":-475,"y":25,"z":175},{"x":-425,"y":25,"z":475},{"x":-425,"y":25,"z":425},{"x":-425,"y":25,"z":375},{"x":-425,"y":25,"z":325},{"x":-425,"y":25,"z":275},{"x":-425,"y":25,"z":225},{"x":-375,"y":25,"z":275},{"x":-375,"y":25,"z":325},{"x":-375,"y":25,"z":375},{"x":-375,"y":25,"z":425},{"x":-375,"y":25,"z":475},{"x":-325,"y":25,"z":475},{"x":-325,"y":25,"z":425},{"x":-325,"y":25,"z":375},{"x":-325,"y":25,"z":325},{"x":-275,"y":25,"z":375},{"x":-275,"y":25,"z":425},{"x":-275,"y":25,"z":475},{"x":-225,"y":25,"z":475},{"x":-225,"y":25,"z":425},{"x":-175,"y":25,"z":475},{"x":-125,"y":25,"z":475},{"x":-175,"y":25,"z":425},{"x":-225,"y":25,"z":375},{"x":-275,"y":25,"z":325},{"x":-325,"y":25,"z":275},{"x":-375,"y":25,"z":225},{"x":-425,"y":25,"z":175},{"x":-475,"y":25,"z":125},{"x":475,"y":25,"z":475},{"x":475,"y":25,"z":425},{"x":475,"y":25,"z":375},{"x":475,"y":25,"z":325},{"x":475,"y":25,"z":275},{"x":475,"y":25,"z":225},{"x":475,"y":25,"z":175},{"x":475,"y":25,"z":125},{"x":425,"y":25,"z":175},{"x":425,"y":25,"z":475},{"x":425,"y":25,"z":425},{"x":425,"y":25,"z":375},{"x":425,"y":25,"z":275},{"x":425,"y":25,"z":325},{"x":425,"y":25,"z":225},{"x":375,"y":25,"z":225},{"x":375,"y":25,"z":275},{"x":375,"y":25,"z":325},{"x":375,"y":25,"z":375},{"x":375,"y":25,"z":425},{"x":375,"y":25,"z":475},{"x":325,"y":25,"z":475},{"x":325,"y":25,"z":425},{"x":325,"y":25,"z":375},{"x":325,"y":25,"z":325},{"x":325,"y":25,"z":275},{"x":275,"y":25,"z":375},{"x":275,"y":25,"z":425},{"x":275,"y":25,"z":475},{"x":225,"y":25,"z":475},{"x":225,"y":25,"z":425},{"x":225,"y":25,"z":375},{"x":375,"y":25,"z":175},{"x":425,"y":25,"z":125},{"x":475,"y":25,"z":75},{"x":475,"y":25,"z":-75},{"x":475,"y":25,"z":-125},{"x":475,"y":25,"z":-175},{"x":475,"y":25,"z":-225},{"x":475,"y":25,"z":-275},{"x":475,"y":25,"z":-325},{"x":475,"y":25,"z":-375},{"x":475,"y":25,"z":-425},{"x":475,"y":25,"z":-475},{"x":425,"y":25,"z":-475},{"x":375,"y":25,"z":-475},{"x":325,"y":25,"z":-475},{"x":275,"y":25,"z":-475},{"x":225,"y":25,"z":-475},{"x":175,"y":25,"z":-475},{"x":125,"y":25,"z":-475},{"x":75,"y":25,"z":-475},{"x":125,"y":25,"z":-425},{"x":175,"y":25,"z":-425},{"x":275,"y":25,"z":-425},{"x":225,"y":25,"z":-425},{"x":325,"y":25,"z":-425},{"x":375,"y":25,"z":-425},{"x":425,"y":25,"z":-425},{"x":425,"y":25,"z":-375},{"x":375,"y":25,"z":-375},{"x":325,"y":25,"z":-375},{"x":275,"y":25,"z":-375},{"x":225,"y":25,"z":-375},{"x":175,"y":25,"z":-375},{"x":225,"y":25,"z":-325},{"x":275,"y":25,"z":-325},{"x":325,"y":25,"z":-325},{"x":375,"y":25,"z":-325},{"x":425,"y":25,"z":-325},{"x":425,"y":25,"z":-275},{"x":375,"y":25,"z":-275},{"x":325,"y":25,"z":-275},{"x":275,"y":25,"z":-275},{"x":325,"y":25,"z":-225},{"x":375,"y":25,"z":-225},{"x":425,"y":25,"z":-225},{"x":425,"y":25,"z":-175},{"x":375,"y":25,"z":-175},{"x":425,"y":25,"z":-125},{"x":-75,"y":25,"z":475},{"x":-125,"y":25,"z":425},{"x":-175,"y":25,"z":375},{"x":-225,"y":25,"z":325},{"x":-275,"y":25,"z":275},{"x":-325,"y":25,"z":225},{"x":-375,"y":25,"z":175},{"x":-425,"y":25,"z":125},{"x":-475,"y":25,"z":75},{"x":-475,"y":25,"z":-75},{"x":-425,"y":25,"z":-125},{"x":-375,"y":25,"z":-175},{"x":-325,"y":25,"z":-225},{"x":-175,"y":25,"z":-375},{"x":-125,"y":25,"z":-425},{"x":-75,"y":25,"z":-475},{"x":175,"y":25,"z":175},{"x":125,"y":25,"z":175},{"x":125,"y":25,"z":125},{"x":75,"y":25,"z":125},{"x":25,"y":25,"z":175},{"x":25,"y":25,"z":125},{"x":-25,"y":25,"z":125},{"x":-25,"y":25,"z":175},{"x":-125,"y":25,"z":175},{"x":-75,"y":25,"z":175},{"x":-75,"y":25,"z":125},{"x":-75,"y":25,"z":75},{"x":-75,"y":25,"z":25},{"x":-25,"y":25,"z":-225},{"x":25,"y":25,"z":-225},{"x":75,"y":25,"z":-225},{"x":125,"y":25,"z":-225},{"x":225,"y":25,"z":-225},{"x":225,"y":25,"z":-175},{"x":225,"y":25,"z":-125},{"x":175,"y":25,"z":-125},{"x":175,"y":25,"z":-175},{"x":175,"y":25,"z":-225},{"x":125,"y":25,"z":-175},{"x":-325,"y":25,"z":-325}],"water":[{"x":75,"y":25,"z":-25},{"x":125,"y":25,"z":-75},{"x":75,"y":25,"z":-75},{"x":125,"y":25,"z":-125},{"x":75,"y":25,"z":-125},{"x":25,"y":25,"z":-125},{"x":25,"y":25,"z":-25},{"x":25,"y":25,"z":-75},{"x":25,"y":25,"z":75},{"x":25,"y":25,"z":25},{"x":-25,"y":25,"z":75},{"x":-25,"y":25,"z":25},{"x":-25,"y":25,"z":-75},{"x":25,"y":25,"z":-175},{"x":75,"y":25,"z":-175},{"x":-325,"y":25,"z":-475},{"x":-275,"y":25,"z":-475},{"x":-325,"y":25,"z":-425},{"x":-275,"y":25,"z":-425},{"x":-275,"y":25,"z":-375},{"x":-325,"y":25,"z":-375},{"x":-275,"y":25,"z":-325},{"x":-275,"y":25,"z":-275},{"x":-225,"y":25,"z":-325},{"x":-225,"y":25,"z":-275},{"x":-225,"y":25,"z":-225},{"x":-175,"y":25,"z":-225},{"x":-175,"y":25,"z":-175},{"x":-125,"y":25,"z":-225},{"x":-125,"y":25,"z":-175},{"x":-125,"y":25,"z":-125},{"x":-75,"y":25,"z":-125},{"x":-25,"y":25,"z":-125},{"x":-75,"y":25,"z":-75},{"x":-25,"y":25,"z":-25},{"x":-75,"y":25,"z":-25},{"x":125,"y":25,"z":75},{"x":75,"y":25,"z":25},{"x":75,"y":25,"z":75},{"x":175,"y":25,"z":75},{"x":175,"y":25,"z":125},{"x":225,"y":25,"z":125},{"x":225,"y":25,"z":175},{"x":275,"y":25,"z":125},{"x":275,"y":25,"z":175},{"x":275,"y":25,"z":225},{"x":325,"y":25,"z":225},{"x":275,"y":25,"z":275},{"x":275,"y":25,"z":325},{"x":225,"y":25,"z":275},{"x":225,"y":25,"z":325},{"x":175,"y":25,"z":325},{"x":125,"y":25,"z":325},{"x":125,"y":25,"z":375},{"x":175,"y":25,"z":375},{"x":175,"y":25,"z":425},{"x":125,"y":25,"z":425},{"x":125,"y":25,"z":475},{"x":75,"y":25,"z":425},{"x":75,"y":25,"z":475},{"x":175,"y":25,"z":475}],"brick":[{"x":25,"y":25,"z":475},{"x":25,"y":25,"z":425},{"x":75,"y":25,"z":375},{"x":175,"y":25,"z":275},{"x":225,"y":25,"z":225},{"x":325,"y":25,"z":25},{"x":325,"y":25,"z":75},{"x":325,"y":25,"z":-25},{"x":325,"y":25,"z":-125},{"x":325,"y":25,"z":-75},{"x":325,"y":25,"z":-175},{"x":375,"y":25,"z":-125},{"x":375,"y":25,"z":-75},{"x":375,"y":25,"z":-25},{"x":375,"y":25,"z":25},{"x":375,"y":25,"z":75},{"x":375,"y":25,"z":125},{"x":425,"y":25,"z":75},{"x":425,"y":25,"z":25},{"x":425,"y":25,"z":-25},{"x":425,"y":25,"z":-75},{"x":475,"y":25,"z":25},{"x":475,"y":25,"z":-25},{"x":25,"y":25,"z":-475},{"x":-25,"y":25,"z":-475},{"x":25,"y":25,"z":-425},{"x":75,"y":25,"z":-425},{"x":-25,"y":25,"z":-425},{"x":-75,"y":25,"z":-425},{"x":-125,"y":25,"z":-375},{"x":25,"y":25,"z":-375},{"x":75,"y":25,"z":-375},{"x":125,"y":25,"z":-375},{"x":175,"y":25,"z":-325},{"x":125,"y":25,"z":-325},{"x":75,"y":25,"z":-325},{"x":-25,"y":25,"z":-325},{"x":25,"y":25,"z":-325},{"x":-75,"y":25,"z":-325},{"x":-125,"y":25,"z":-325},{"x":-175,"y":25,"z":-325},{"x":225,"y":25,"z":-275},{"x":175,"y":25,"z":-275},{"x":125,"y":25,"z":-275},{"x":25,"y":25,"z":-275},{"x":75,"y":25,"z":-275},{"x":-25,"y":25,"z":-275},{"x":-75,"y":25,"z":-275},{"x":-275,"y":25,"z":-225},{"x":-275,"y":25,"z":-175},{"x":-275,"y":25,"z":-125},{"x":-275,"y":25,"z":-75},{"x":-275,"y":25,"z":-25},{"x":-275,"y":25,"z":25},{"x":-275,"y":25,"z":75},{"x":-275,"y":25,"z":125},{"x":-275,"y":25,"z":175},{"x":-275,"y":25,"z":225},{"x":-325,"y":25,"z":175},{"x":-325,"y":25,"z":125},{"x":-325,"y":25,"z":75},{"x":-325,"y":25,"z":-25},{"x":-325,"y":25,"z":25},{"x":-325,"y":25,"z":-75},{"x":-325,"y":25,"z":-125},{"x":-325,"y":25,"z":-175},{"x":-375,"y":25,"z":-125},{"x":-375,"y":25,"z":-75},{"x":-375,"y":25,"z":-25},{"x":-375,"y":25,"z":25},{"x":-375,"y":25,"z":75},{"x":-375,"y":25,"z":125},{"x":-425,"y":25,"z":75},{"x":-425,"y":25,"z":25},{"x":-425,"y":25,"z":-25},{"x":-425,"y":25,"z":-75},{"x":-475,"y":25,"z":-25},{"x":175,"y":25,"z":225},{"x":125,"y":25,"z":225},{"x":75,"y":25,"z":225},{"x":25,"y":25,"z":225},{"x":-25,"y":25,"z":225},{"x":-75,"y":25,"z":225},{"x":-125,"y":25,"z":225},{"x":-175,"y":25,"z":225},{"x":-225,"y":25,"z":225},{"x":-225,"y":25,"z":275},{"x":-175,"y":25,"z":275},{"x":-125,"y":25,"z":275},{"x":-75,"y":25,"z":275},{"x":-25,"y":25,"z":275},{"x":25,"y":25,"z":275},{"x":75,"y":25,"z":275},{"x":125,"y":25,"z":275},{"x":75,"y":25,"z":325},{"x":25,"y":25,"z":325},{"x":-75,"y":25,"z":325},{"x":-25,"y":25,"z":325},{"x":-125,"y":25,"z":325},{"x":-175,"y":25,"z":325},{"x":-125,"y":25,"z":375},{"x":-75,"y":25,"z":375},{"x":-25,"y":25,"z":375},{"x":25,"y":25,"z":375},{"x":-25,"y":25,"z":425},{"x":-75,"y":25,"z":425},{"x":-25,"y":25,"z":475},{"x":-475,"y":25,"z":25},{"x":275,"y":25,"z":25},{"x":275,"y":25,"z":-25},{"x":275,"y":25,"z":-75},{"x":275,"y":25,"z":-125},{"x":275,"y":25,"z":-175},{"x":275,"y":25,"z":-225},{"x":-225,"y":25,"z":-175},{"x":-225,"y":25,"z":-125},{"x":-225,"y":25,"z":25},{"x":-225,"y":25,"z":-25},{"x":-225,"y":25,"z":75},{"x":-225,"y":25,"z":175},{"x":-175,"y":25,"z":175},{"x":-125,"y":25,"z":125},{"x":-175,"y":25,"z":125},{"x":-225,"y":25,"z":125},{"x":-175,"y":25,"z":75},{"x":75,"y":25,"z":175},{"x":325,"y":25,"z":125},{"x":325,"y":25,"z":175},{"x":275,"y":25,"z":75},{"x":225,"y":25,"z":25},{"x":225,"y":25,"z":75},{"x":225,"y":25,"z":-75},{"x":225,"y":25,"z":-25},{"x":175,"y":25,"z":-75},{"x":175,"y":25,"z":-25},{"x":175,"y":25,"z":25},{"x":125,"y":25,"z":-25},{"x":125,"y":25,"z":25},{"x":-125,"y":25,"z":25},{"x":-125,"y":25,"z":75},{"x":-125,"y":25,"z":-75},{"x":-175,"y":25,"z":-25},{"x":-125,"y":25,"z":-25},{"x":-175,"y":25,"z":25},{"x":-175,"y":25,"z":-125},{"x":-175,"y":25,"z":-75},{"x":-225,"y":25,"z":-75},{"x":-75,"y":25,"z":-225},{"x":-75,"y":25,"z":-175},{"x":-25,"y":25,"z":-175},{"x":-125,"y":25,"z":-275},{"x":-75,"y":25,"z":-375},{"x":-25,"y":25,"z":-375},{"x":-175,"y":25,"z":-275}],"door":[]}'
 var rollOverGeo, rollOverMaterial, rollOverMesh
@@ -15,6 +16,8 @@ var cube
 var gui
 
 var matrix = []
+
+var cube_list = ["brick","water","grass"]
 
 for (let x = 0; x < 20; x++) {
     matrix.push([])
@@ -45,26 +48,26 @@ var createPreview = function () {
     scene.add(rollOverMesh);
 }
 
-var createWater = function () {
-    createPreview();
-    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') });
-    currentCube = 'water'
-}
+// var createWater = function () {
+//     createPreview();
+//     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+//     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/water/Water_2_M_Normal.jpg') });
+//     currentCube = 'water'
+// }
 
-var createGrass = function () {
-    createPreview();
-    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') });
-    currentCube = 'grass'
-}
+// var createGrass = function () {
+//     createPreview();
+//     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+//     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/grass/grass.jpg') });
+//     currentCube = 'grass'
+// }
 
-var createBrick = function () {
-    createPreview();
-    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') });
-    currentCube = 'brick'
-}
+// var createBrick = function () {
+//     createPreview();
+//     cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+//     cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('../dist/textures/brick/brick_diffuse.jpg') });
+//     currentCube = 'brick'
+// }
 //MC材质大门
 var createDoor = function () {
     createPreview();
@@ -109,36 +112,47 @@ info.style.height = '50px'
 info.style.background = '#ccc'
 info.style.textAlign = 'center';
 info.style.zIndex = 99;
-var waterElement = document.createElement('button')
-waterElement.id = 'waterCube'
-waterElement.onclick = createWater
-waterElement.innerHTML = 'waterCube'
-info.appendChild(waterElement);
 
-var grassElement = document.createElement('button')
-grassElement.id = 'grassCube'
-grassElement.onclick = createGrass
-grassElement.innerHTML = 'grassCube'
+// 加载cube的选项按钮
+cube_list.forEach(cube_name => {
+    var element = document.createElement('button');
+    element.id = cube_name;
+    element.innerHTML = cube_name;
+    element.onclick = ()=>{
+        currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
+    }
+    info.appendChild(element);
+});
+// var waterElement = document.createElement('button')
+// waterElement.id = 'waterCube'
+// waterElement.onclick = createWater
+// waterElement.innerHTML = 'waterCube'
+// info.appendChild(waterElement);
 
-info.appendChild(grassElement);
+// var grassElement = document.createElement('button')
+// grassElement.id = 'grassCube'
+// grassElement.onclick = createGrass
+// grassElement.innerHTML = 'grassCube'
 
-var brickElement = document.createElement('button')
-brickElement.id = 'brickCube'
-brickElement.onclick = createBrick
-brickElement.innerHTML = 'brickCube'
-info.appendChild(brickElement);
+// info.appendChild(grassElement);
 
-var doorElement = document.createElement('button')
-doorElement.id = 'doorCube'
-doorElement.onclick = createDoor
-doorElement.innerHTML = 'doorCube'
-info.appendChild(doorElement);
+// var brickElement = document.createElement('button')
+// brickElement.id = 'brickCube'
+// brickElement.onclick = createBrick
+// brickElement.innerHTML = 'brickCube'
+// info.appendChild(brickElement);
 
-var doorElement = document.createElement('button')
-doorElement.id = 'export'
-doorElement.onclick = exportCubePosition
-doorElement.innerHTML = 'export'
-info.appendChild(doorElement);
+// var doorElement = document.createElement('button')
+// doorElement.id = 'doorCube'
+// doorElement.onclick = createDoor
+// doorElement.innerHTML = 'doorCube'
+// info.appendChild(doorElement);
+
+// var doorElement = document.createElement('button')
+// doorElement.id = 'export'
+// doorElement.onclick = exportCubePosition
+// doorElement.innerHTML = 'export'
+// info.appendChild(doorElement);
 
 
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);//设置透视投影的相机
@@ -148,7 +162,6 @@ camera.lookAt(new THREE.Vector3());//设置视野的中心坐标
 var scene = new THREE.Scene();
 var ratio = window.innerWidth / window.innerHeight;
 var renderer = new THREE.WebGLRenderer();
-
 renderer.shadowMap.enabled = true;
 
 
@@ -159,6 +172,9 @@ renderer.setClearColor(0xCCCCCC, 1.0);
 
 
 var clock = new THREE.Clock();
+
+
+var cube_manager = new CUBE_MANAGER(scene);
 
 
 var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
@@ -268,42 +284,42 @@ ground.name = 'ground'
 groundGeometry.rotateX(- Math.PI / 2);
 objects.push(ground);
 scene.add(ground)
-for (const key in originCubePosition) {
-    switch (key) {
-        case 'water':
-            createWater()
-            break;
-        case 'grass':
-            createGrass()
-            break;
-        case 'brick':
-            createBrick()
-            break;
-        case 'door':
-            createDoor()
-            break;
+// for (const key in originCubePosition) {
+//     switch (key) {
+//         case 'water':
+//             createWater()
+//             break;
+//         case 'grass':
+//             createGrass()
+//             break;
+//         case 'brick':
+//             createBrick()
+//             break;
+//         case 'door':
+//             createDoor()
+//             break;
 
-        default:
-            break;
-    }
-    originCubePosition[key].forEach(position => {
-        var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
-        cube.position.x = position.x
-        cube.position.y = position.y
-        cube.position.z = position.z
-        cube.receiveShadow = true
-        cube.castShadow = position.z === -525 ? true : false
-        cube.name = key
-        objects.push(cube);
+//         default:
+//             break;
+//     }
+//     originCubePosition[key].forEach(position => {
+//         var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
+//         cube.position.x = position.x
+//         cube.position.y = position.y
+//         cube.position.z = position.z
+//         cube.receiveShadow = true
+//         cube.castShadow = position.z === -525 ? true : false
+//         cube.name = key
+//         objects.push(cube);
 
-        const x = (cube.position.x - (-475)) / 50
-        const y = (cube.position.y - 25) / 50
-        const z = (cube.position.z - (-475)) / 50
-        matrix[x][y][z] = cube.name
+//         const x = (cube.position.x - (-475)) / 50
+//         const y = (cube.position.y - 25) / 50
+//         const z = (cube.position.z - (-475)) / 50
+//         matrix[x][y][z] = cube.name
 
-        scene.add(cube)
-    })
-}
+//         scene.add(cube)
+//     })
+// }
 
 console.log(JSON.stringify(matrix));
 
@@ -334,7 +350,8 @@ function onDocumentMouseDown(event) {
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
-            var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+            // var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+            var voxel = cube_manager.getCube(currentCube)
             //var voxel = WaterCube(water_params);
             voxel.position.copy(intersect.point).add(intersect.face.normal);
             voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
