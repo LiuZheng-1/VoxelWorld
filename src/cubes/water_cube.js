@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Mesh } from 'three';
 import { Water } from 'three/examples/jsm/objects/Water2';
-import { BufferGeometryUtils} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 export function WaterCube(water_params) {
     var water_cube = new THREE.Object3D();
@@ -32,18 +32,18 @@ export function WaterCube(water_params) {
     return water
 }
 
-export class WATER_MANAGER{
-    constructor(scene, params){
+export class WATER_MANAGER {
+    constructor(scene, params) {
         this.scene = scene;
         this.params = params
         this.geo = null;
-        this.water_dict ={}
+        this.water_dict = {}
     }
-    hash_xyz(x,y,z){
-        return String(parseInt(x)+""+parseInt(y)+""+parseInt(z));
+    hash_xyz(x, y, z) {
+        return String(parseInt(x) + "" + parseInt(y) + "" + parseInt(z));
     }
-    make_geo(x,y,z){
-        var geo = new THREE.BoxBufferGeometry(1,1,1)
+    make_geo(x, y, z) {
+        var geo = new THREE.BoxBufferGeometry(1, 1, 1)
         let transform = new THREE.Object3D()
         transform.position.set(x, y, z);
         // transform.rotation.x = Math.PI * - 0.5;
@@ -51,31 +51,36 @@ export class WATER_MANAGER{
         geo.applyMatrix4(transform.matrix)
         return geo
     }
-    add_water(x,y,z){
-        console.log(x,y,z)
-        var geo = this.make_geo(x,y,z);
-        this.water_dict[this.hash_xyz(x,y,z)] = [x,y,z]
-        
-        if(this.geo==null){
+    add_water(x, y, z) {
+        console.log(x, y, z)
+        var geo = this.make_geo(x, y, z);
+        this.water_dict[this.hash_xyz(x, y, z)] = [x, y, z]
+
+        if (this.geo == null) {
             this.geo = geo;
-        }else{
+        } else {
             this.geo = BufferGeometryUtils.mergeBufferGeometries([this.geo, geo])
         }
         this.render()
     }
-    remove(x,y,z){
-        delete this.water_dict[this.hash_xyz(x,y,z)];
+    remove(x, y, z) {
+        delete this.water_dict[this.hash_xyz(x, y, z)];
         let geo_li = [];
         console.log(this.water_dict)
-        for(let key in this.water_dict){
+        for (let key in this.water_dict) {
             var w = this.water_dict[key];
             console.log(w)
-            geo_li.push(this.make_geo(w[0],w[1],w[2]))
+            geo_li.push(this.make_geo(w[0], w[1], w[2]))
         }
         this.geo = BufferGeometryUtils.mergeBufferGeometries(geo_li);
         this.render()
     }
-    render(){
+    removeObj() {
+        this.scene.remove(this.obj)
+        this.geo = null
+        this.water_dict = {}
+    }
+    render() {
         this.scene.remove(this.obj)
         this.obj = new Water(this.geo, {
             color: this.params.color,

@@ -20,6 +20,7 @@ var gui
 
 var cube_list = ["brick", "water", "grass", "door", "glass"]
 var currentCube = cube_list[0]
+var currentFile = null
 /*
  * Setting the basic conponents
  *
@@ -38,12 +39,10 @@ var controls = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.setClearColor(0xCCCCCC, 1.0);
-var clock = new THREE.Clock();
-
 
 var cube_manager = new CUBE_MANAGER(scene);
 const water_params = {
-    color: '#ffffff',
+    color: 'black',
     scale: 0.8,
     flowX: 1,
     flowY: 1,
@@ -83,9 +82,10 @@ var info = document.createElement('div');
 document.body.appendChild(info)
 info.class = 'info'
 info.style.display = 'flex'
+info.style.alignItems = 'center'
+info.style.justifyContent = 'center'
 info.style.position = 'absolute';
 info.style.top = '10px';
-info.style.width = '200px';
 info.style.height = '50px'
 info.style.background = '#ccc'
 info.style.textAlign = 'center';
@@ -123,10 +123,47 @@ element.onclick = () => {
     aLink.download = "saved_map.json";
     aLink.href = URL.createObjectURL(blob);
     aLink.dispatchEvent(evt);
-    console.log(originCubePosition)
 }
 info.appendChild(element);
 
+var upload = document.createElement('input');
+upload.id = "Upload";
+upload.type = "file"
+upload.accept = ".json";
+upload.setAttribute("class", "upload");
+upload.onchange = evt => {
+    const file = evt.target.files[0]
+    currentFile = file
+    evt.value = null
+}
+info.appendChild(upload);
+
+
+
+var read = document.createElement('button');
+read.id = "read";
+read.innerHTML = "read";
+const fileReader = new FileReader()
+read.onclick = () => {
+    if (currentFile) {
+        fileReader.readAsText(currentFile, 'utf-8')
+        fileReader.onloadend = function (evt) {
+            const positions = JSON.parse(evt.target.result)
+            objects.forEach(obj => {
+                if (obj.name !== 'ground') {
+                    scene.remove(obj)
+                }
+            })
+            water_manager.removeObj()
+            objects = []
+            objects.push(ground)
+            load_achieve(positions)
+        }
+    } else {
+        alert('Please select the source data json file!')
+    }
+}
+info.appendChild(read);
 
 function buildGui() {
 
@@ -233,6 +270,9 @@ var load_achieve = (achieve) => {
             const y = cube.position.y
             const z = cube.position.z
             scene.add(cube)
+            if (cube_list[i] == "water") {
+                water_manager.add_water(x, y, z);
+            }
         })
     }
     console.log("load success")
@@ -270,7 +310,6 @@ function onDocumentMouseDown(event) {
                     water_manager.remove(p.x, p.y, p.z);
                 }
                 scene.remove(intersect.object);
-                console.log(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
