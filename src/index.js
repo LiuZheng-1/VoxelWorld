@@ -8,7 +8,7 @@ import { CUBE_MANAGER } from './cubes/index'
 import { WATER_MANAGER } from './cubes/water_cube'
 
 var originCubePosition = {
-    "brick": [], "water": [], "grass": [], "door": [], "glass": []
+    "brick": [], "water": [], "grass": [], "door": [], "glass": [], "dirt": [], "wood": [], "sand": [], "stone": []
 }
 
 var rollOverGeo, rollOverMaterial, rollOverMesh
@@ -18,7 +18,7 @@ var objects = [];
 var isShiftDown = false
 var gui
 
-var cube_list = ["brick", "water", "grass", "door", "glass"]
+var cube_list = ["brick", "water", "grass", "door", "glass", "dirt", "wood", "sand", "stone"]
 var currentCube = cube_list[0]
 var currentFile = null
 /*
@@ -110,7 +110,7 @@ element.onclick = () => {
     var evt = document.createEvent("MouseEvents");
     evt.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     originCubePosition = {
-        "brick": [], "water": [], "grass": [], "door": [], "glass": []
+        "brick": [], "water": [], "grass": [], "door": [], "glass": [], "dirt": [], "wood": [], "sand": [], "stone": []
     }
     objects.forEach(element => {
         if (element.name !== 'ground') {
