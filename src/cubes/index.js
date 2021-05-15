@@ -9,6 +9,12 @@ const textured_cube_setting = {
     "water":{ color:"#20a8e6",opacity:0},//占个位置不显示
     'grass':{ texture:'../dist/textures/grass/grass.jpg'},
     'glass':{ color:"#ffffff",opacity:0.3},
+    'dirt':{ texture:"../dist/textures/minecraft_dirt.jpg"},
+    'wood':{ texture:"../dist/textures/wood.jpg"},
+    'sand':{ texture:"../dist/textures/minecraft_sand.jpg"},
+    'stone':{ texture:"../dist/textures/minecraft_stone.jpg"},
+
+
 }
 
 //MC材质大门
