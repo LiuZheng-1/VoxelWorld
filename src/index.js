@@ -66,8 +66,8 @@ spotLight.castShadow = true;
 spotLight.distance = 500
 scene.add(spotLight);
 
-var spotLightHelper = new THREE.SpotLightHelper(spotLight)
-scene.add(spotLightHelper);
+// var spotLightHelper = new THREE.SpotLightHelper(spotLight)
+// scene.add(spotLightHelper);
 
 var createPreview = function () {
     scene.remove(rollOverMesh)
