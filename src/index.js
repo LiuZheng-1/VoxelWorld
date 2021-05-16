@@ -99,12 +99,15 @@ info.class = 'info'
 info.style.display = 'flex'
 info.style.alignItems = 'center'
 info.style.justifyContent = 'center'
-info.style.position = 'absolute';
+info.style.position = 'absolute'
 info.style.top = '10px';
 info.style.height = '50px'
 info.style.background = '#ccc'
 info.style.textAlign = 'center';
 info.style.zIndex = 99;
+var cubeButtonBox = document.createElement('div');
+cubeButtonBox.setAttribute('class', 'cube_box')
+document.body.appendChild(cubeButtonBox)
 
 // 加载cube的选项按钮
 cube_list.forEach(cube_name => {
@@ -122,8 +125,9 @@ cube_list.forEach(cube_name => {
         element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
     }
     element.setAttribute('class', 'button')
-    info.appendChild(element);
+    cubeButtonBox.appendChild(element);
 });
+
 
 var element = document.createElement('button');
 element.id = "Save";
