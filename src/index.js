@@ -38,7 +38,7 @@ var currentFile = null
  *
  */
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-camera.position.set(5, 8, 13);
+camera.position.set(25, 25, 25);
 camera.lookAt(new THREE.Vector3());
 
 var scene = new THREE.Scene();
@@ -276,7 +276,7 @@ window.addEventListener('resize', MyResize);
 
 scene.background = skybox();
 
-var groundGeometry = new THREE.PlaneBufferGeometry(30, 30);
+var groundGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
 groundGeometry.name = 'PlaneBufferGeometry'
 var groundMaterial = new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0.4 });
 var ground = new THREE.Mesh(groundGeometry, groundMaterial);
@@ -331,7 +331,10 @@ function onDocumentMouseMove(event) {
 
 }
 
+var isCtrlDown = false
+
 function onDocumentMouseDown(event) {
+    if (!isCtrlDown) return
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
@@ -348,7 +351,6 @@ function onDocumentMouseDown(event) {
             }
         } else {
             var voxel = cube_manager.getCube(currentCube);
-
             voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
             voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
             voxel.receiveShadow = voxel.position.y === 0.5 ? true : false
@@ -368,15 +370,17 @@ function onDocumentMouseDown(event) {
 function onDocumentKeyDown(event) {
     switch (event.keyCode) {
         case 16: isShiftDown = true; break;
-
+        case 17: isCtrlDown = true; break
     }
 }
 function onDocumentKeyUp(event) {
     switch (event.keyCode) {
         case 16: isShiftDown = false; break;
+        case 17: isCtrlDown = false; break
 
     }
 }
+
 
 function render() {
     renderer.render(scene, camera);
