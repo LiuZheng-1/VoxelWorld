@@ -38,6 +38,59 @@
     cursor: pointer;
     box-shadow: 2px 2px 5px #000;
   }
+
+  .upload {
+    visibility: hidden;
+    width: 60px;
+    /* content: 'Select some files'; */
+  }
+
+  .upload::before {
+    content: 'Upload';
+    display: inline-block;
+    visibility: visible;
+    background: rgb(122, 209, 255);
+    border: 0;
+    border-radius: 3px;
+    padding: 5px 5px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    font-size: 10pt;
+  }
+
+  .upload_input {
+    margin-right: 10px;
+  }
+
+  .upload:hover::before {
+    cursor: pointer;
+    box-shadow: inset 0px 0px 5px 1px #000;
+    border: none;
+  }
+
+  .upload:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+  }
+
+  .save,
+  .read {
+    background: rgb(122, 209, 255);
+    border: 0;
+    border-radius: 3px;
+    padding: 5px 5px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    font-size: 10pt;
+    margin-right: 10px;
+    width: 60px;
+    height: 30px;
+  }
+
+  .save:hover,
+  .read:hover {
+    cursor: pointer;
+    box-shadow: inset 0px 0px 5px 1px #000;
+  }
 </style>
 
 </html>

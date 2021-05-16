@@ -102,9 +102,10 @@ info.style.justifyContent = 'center'
 info.style.position = 'absolute'
 info.style.top = '10px';
 info.style.height = '50px'
-info.style.background = '#ccc'
+info.style.background = '#111'
 info.style.textAlign = 'center';
 info.style.zIndex = 99;
+info.style.padding = '5px 5px'
 var cubeButtonBox = document.createElement('div');
 cubeButtonBox.setAttribute('class', 'cube_box')
 document.body.appendChild(cubeButtonBox)
@@ -132,6 +133,7 @@ cube_list.forEach(cube_name => {
 var element = document.createElement('button');
 element.id = "Save";
 element.innerHTML = "Save";
+element.setAttribute("class", "save");
 element.onclick = () => {
     var aLink = document.createElement('a');
     var evt = document.createEvent("MouseEvents");
@@ -151,7 +153,6 @@ element.onclick = () => {
     aLink.href = URL.createObjectURL(blob);
     aLink.dispatchEvent(evt);
 }
-info.appendChild(element);
 
 var upload = document.createElement('input');
 upload.id = "Upload";
@@ -162,14 +163,22 @@ upload.onchange = evt => {
     const file = evt.target.files[0]
     currentFile = file
     evt.value = null
+    uploadInput.value = upload.value
 }
-info.appendChild(upload);
+var uploadInput = document.createElement('input');
+uploadInput.id = 'uploadInput'
+uploadInput.disabled = true
+uploadInput.placeholder = 'please upload a json file'
+uploadInput.setAttribute("class", "upload_input");
+
 
 
 
 var read = document.createElement('button');
 read.id = "read";
-read.innerHTML = "read";
+read.innerHTML = "Load";
+read.setAttribute("class", "read");
+
 const fileReader = new FileReader()
 read.onclick = () => {
     if (currentFile) {
@@ -190,7 +199,11 @@ read.onclick = () => {
         alert('Please select the source data json file!')
     }
 }
+
+info.appendChild(element);
 info.appendChild(read);
+info.appendChild(upload);
+info.appendChild(uploadInput);
 
 function buildGui() {
 
