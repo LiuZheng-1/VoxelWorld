@@ -13,8 +13,6 @@ const textured_cube_setting = {
     'wood': { texture: "../dist/textures/wood.jpg" },
     'sand': { texture: "../dist/textures/minecraft_sand.jpg" },
     'stone': { texture: "../dist/textures/minecraft_stone.jpg" },
-
-
 }
 
 //MC材质大门

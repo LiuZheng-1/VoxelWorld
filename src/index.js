@@ -19,6 +19,18 @@ var isShiftDown = false
 var gui
 
 var cube_list = ["brick", "water", "grass", "door", "glass", "dirt", "wood", "sand", "stone"]
+const textured_cube_setting = {
+    'brick': { texture: "../dist/textures/brick/brick_diffuse.jpg" },
+    "water": { color: "#20a8e6", opacity: 0 },//占个位置不显示
+    'grass': { texture: '../dist/textures/grass/grass.jpg' },
+    'glass': { color: "#ffffff", opacity: 0.3 },
+    'dirt': { texture: "../dist/textures/minecraft_dirt.jpg" },
+    'wood': { texture: "../dist/textures/wood.jpg" },
+    'sand': { texture: "../dist/textures/minecraft_sand.jpg" },
+    'stone': { texture: "../dist/textures/minecraft_stone.jpg" },
+    'door': { texture: "../dist/textures/minecraft/door_spruce_lower.png" }
+}
+
 var currentCube = cube_list[0]
 var currentFile = null
 /*
@@ -102,6 +114,14 @@ cube_list.forEach(cube_name => {
     element.onclick = () => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
+    const url = textured_cube_setting[cube_name]
+    console.log(cube_name, url);
+    if (cube_name === 'water' || cube_name === 'glass') {
+        element.style = 'background:' + url.color
+    } else {
+        element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
+    }
+    element.setAttribute('class', 'button')
     info.appendChild(element);
 });
 
@@ -314,8 +334,8 @@ function onDocumentMouseDown(event) {
 
             voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
             voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-            voxel.receiveShadow = position.y === 0.5 ? true : false
-            voxel.castShadow = position.y === 0.5 ? false : true
+            voxel.receiveShadow = voxel.position.y === 0.5 ? true : false
+            voxel.castShadow = voxel.position.y === 0.5 ? false : true
             voxel.name = currentCube
             console.log(voxel.position);
             scene.add(voxel);
