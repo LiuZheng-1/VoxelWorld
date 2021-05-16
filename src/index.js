@@ -61,10 +61,13 @@ directionalLight.position.set(- 1, 1, 1);
 scene.add(directionalLight);
 
 var spotLight = new THREE.SpotLight(0xffffff)
-spotLight.position.set(-25, 450, 25);
+spotLight.position.set(-25, 100, 25);
 spotLight.castShadow = true;
-spotLight.distance = 2000
+spotLight.distance = 500
 scene.add(spotLight);
+
+var spotLightHelper = new THREE.SpotLightHelper(spotLight)
+scene.add(spotLightHelper);
 
 var createPreview = function () {
     scene.remove(rollOverMesh)
@@ -174,7 +177,6 @@ function buildGui() {
         intensity: spotLight.intensity,
         height: spotLight.position.y,
         angle: spotLight.angle,
-        penumbra: spotLight.penumbra,
         decay: spotLight.decay,
         focus: spotLight.shadow.focus
     };
@@ -190,18 +192,13 @@ function buildGui() {
     });
 
 
-    gui.add(params, 'height', 200, 1000).onChange(function (val) {
+    gui.add(params, 'height', 0, 400).onChange(function (val) {
         spotLight.position.y = val;
         render();
     });
 
     gui.add(params, 'angle', 0, Math.PI / 3).onChange(function (val) {
         spotLight.angle = val;
-        render();
-    });
-
-    gui.add(params, 'penumbra', 0, 1).onChange(function (val) {
-        spotLight.penumbra = val;
         render();
     });
 
@@ -261,8 +258,8 @@ var load_achieve = (achieve) => {
             cube.position.x = position.x
             cube.position.y = position.y
             cube.position.z = position.z
-            cube.receiveShadow = true
-            cube.castShadow = position.z === -525 ? true : false
+            cube.receiveShadow = position.y === 0.5 ? true : false
+            cube.castShadow = position.y === 0.5 ? false : true
             cube.name = cube_list[i]
             objects.push(cube);
 
@@ -317,8 +314,10 @@ function onDocumentMouseDown(event) {
 
             voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
             voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-            voxel.castShadow = true
+            voxel.receiveShadow = position.y === 0.5 ? true : false
+            voxel.castShadow = position.y === 0.5 ? false : true
             voxel.name = currentCube
+            console.log(voxel.position);
             scene.add(voxel);
             objects.push(voxel);
             if (currentCube == "water") {
