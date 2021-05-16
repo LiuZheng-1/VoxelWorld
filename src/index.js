@@ -242,7 +242,7 @@ window.addEventListener('resize', MyResize);
 
 scene.background = skybox();
 
-var groundGeometry = new THREE.PlaneBufferGeometry(20, 20);
+var groundGeometry = new THREE.PlaneBufferGeometry(30, 30);
 groundGeometry.name = 'PlaneBufferGeometry'
 var groundMaterial = new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0.4 });
 var ground = new THREE.Mesh(groundGeometry, groundMaterial);
