@@ -31,7 +31,7 @@ const textured_cube_setting = {
     'door': { texture: "../dist/textures/minecraft/door_spruce_lower.png" }
 }
 
-var currentCube = cube_list[0]
+var currentCube = null
 var currentFile = null
 /*
  * Setting the basic conponents
@@ -61,6 +61,7 @@ const water_params = {
     cube_color: "#20a8e6",
     cube_opacity: 0.5,
 };
+var cube_list  =cube_manager.getCubeList()
 var water_manager = new WATER_MANAGER(scene, water_params);
 
 
@@ -118,12 +119,20 @@ cube_list.forEach(cube_name => {
     element.onclick = () => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
-    const url = textured_cube_setting[cube_name]
-    console.log(cube_name, url);
-    if (cube_name === 'water' || cube_name === 'glass') {
-        element.style = 'background:' + url.color
-    } else {
-        element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
+    // const url = textured_cube_setting[cube_name]
+    // console.log(cube_name, url);
+    // if (cube_name === 'water' || cube_name === 'glass') {
+    //     element.style = 'background:' + url.color
+    // } else {
+    //     element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
+    // }
+    var url = cube_manager.getTexture(cube_name);
+    if(url==null){
+        element.style = 'background: #cccccc'
+    }else if(url[0]=="#"){// color
+        element.style = 'background:' + url
+    }else{
+        element.style = 'background:url(' + url + ');background-size:50px 50px'
     }
     element.setAttribute('class', 'button')
     cubeButtonBox.appendChild(element);
@@ -334,7 +343,8 @@ function onDocumentMouseMove(event) {
 var isCtrlDown = false
 
 function onDocumentMouseDown(event) {
-    if (!isCtrlDown) return
+    if (!isCtrlDown) return;
+    if (!currentCube==null) return;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
