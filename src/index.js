@@ -276,6 +276,7 @@ function buildGui() {
 var MyUpdateLoop = function () {
     renderer.render(scene, camera);
     controls.update();
+    creature_manager.update_all();
     requestAnimationFrame(MyUpdateLoop);
 };
 requestAnimationFrame(MyUpdateLoop);
