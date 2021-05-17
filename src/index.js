@@ -18,8 +18,30 @@ var objects = [];
 var isShiftDown = false
 var gui
 
+<<<<<<< Updated upstream
 var cube_list = ["brick", "water", "grass", "door", "glass"]
 var currentCube = cube_list[0]
+=======
+// var cube_list = [
+//                 "brick", "water", "grass", "door", "glass", 
+//                 "dirt", "wood", "sand", "stone","acacia_leaves",
+//                 "oak_leaves","sandstone"
+            // ]
+const textured_cube_setting = {
+    'brick': { texture: "../dist/textures/brick/brick_diffuse.jpg" },
+    "water": { color: "#20a8e6", opacity: 0 },//占个位置不显示
+    'grass': { texture: '../dist/textures/grass/grass.jpg' },
+    'glass': { color: "#ffffff", opacity: 0.3 },
+    'dirt': { texture: "../dist/textures/minecraft_dirt.jpg" },
+    'wood': { texture: "../dist/textures/wood.jpg" },
+    'sand': { texture: "../dist/textures/minecraft_sand.jpg" },
+    'stone': { texture: "../dist/textures/minecraft_stone.jpg" },
+    'door': { texture: "../dist/textures/minecraft/door_spruce_lower.png" },
+}
+
+var currentCube = null
+var currentFile = null
+>>>>>>> Stashed changes
 /*
  * Setting the basic conponents
  *
@@ -50,7 +72,9 @@ const water_params = {
     cube_color: "#20a8e6",
     cube_opacity: 0.5,
 };
+var cube_list = cube_manager.getCubeList()
 var water_manager = new WATER_MANAGER(scene, water_params);
+
 
 
 
@@ -92,14 +116,38 @@ info.style.textAlign = 'center';
 info.style.zIndex = 99;
 
 // 加载cube的选项按钮
+
 cube_list.forEach(cube_name => {
     var element = document.createElement('button');
     element.id = cube_name;
     element.innerHTML = cube_name;
     element.onclick = () => {
-        currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
+        currentCube = cube_name; // setting the current cube to allow other function to get it
     }
+<<<<<<< Updated upstream
     info.appendChild(element);
+=======
+    // const url = textured_cube_setting[cube_name]
+    // console.log(cube_name, url);
+    // const url = 
+    var url = cube_manager.getTexture(cube_name);
+    if(url==null){
+        element.style = 'background: #cccccc'
+    }else if(url[0]=="#"){// color
+        element.style = 'background:' + url
+    }else{
+        element.style = 'background:url(' + url + ');background-size:50px 50px'
+    }
+    // if(url==undefined){
+    //     element.style = 'background: #cccccc'
+    // }else if (cube_name === 'water' || cube_name === 'glass') {
+    //     element.style = 'background:' + url.color
+    // } else {
+    //     element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
+    // }
+    element.setAttribute('class', 'button')
+    cubeButtonBox.appendChild(element);
+>>>>>>> Stashed changes
 });
 
 var element = document.createElement('button');
@@ -258,6 +306,11 @@ function onDocumentMouseMove(event) {
 }
 
 function onDocumentMouseDown(event) {
+<<<<<<< Updated upstream
+=======
+    if (!isCtrlDown) return
+    if(currentCube==null) return;
+>>>>>>> Stashed changes
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
