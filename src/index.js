@@ -65,8 +65,8 @@ const water_params = {
 
 var water_manager = new WATER_MANAGER(scene, water_params);
 var creature_manager = new CREATURE_MANAGER(scene, clock);
-var cube_list  =cube_manager.getCubeList()
-var creature_list  =creature_manager.get_creature_list()
+var cube_list = cube_manager.getCubeList()
+var creature_list = creature_manager.get_creature_list()
 
 
 var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
@@ -114,21 +114,39 @@ var cubeButtonBox = document.createElement('div');
 cubeButtonBox.setAttribute('class', 'cube_box')
 document.body.appendChild(cubeButtonBox)
 
-// 加载cube的选项按钮
+var operation = document.createElement('div')
+var str = ['add: ctrl + click', 'delete: ctrl + shift + click', 'Group 30:', 'Zheng Liu    13066384', 'Miaolin Yu    13501150', 'Tianyi Gu	  13679408', 'Jingyi Wu    99151300']
+str.forEach(s => {
+    var strDiv = document.createElement('div')
+    strDiv.innerHTML = s
+    operation.appendChild(strDiv)
+}
+)
+
+// Zheng Liu             13066384
+// Miaolin Yu           13501150
+// Tianyi Gu	       13679408
+operation.setAttribute('class', 'operation')
+document.body.append(operation)
+
 cube_list.forEach(cube_name => {
     var element = document.createElement('button');
     element.id = cube_name;
-    element.innerHTML = cube_name;
+    var div = document.createElement('div')
+    div.innerHTML = cube_name
+    div.setAttribute('class', 'cube_name')
+    element.appendChild(div)
+    // element.innerHTML = cube_name;
     element.onclick = () => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
     var url = cube_manager.getTexture(cube_name);
-    if(url==null){
-        element.style = 'background: #cccccc'
-    }else if(url[0]=="#"){// color
-        element.style = 'background:' + url
-    }else{
-        element.style = 'background:url(' + url + ');background-size:50px 50px'
+    if (url == null) {
+        element.style = 'background: #cccccc;width:50px;height:50px'
+    } else if (url[0] == "#") {// color
+        element.style = 'background:' + url + ';width:50px;height:50px'
+    } else {
+        element.style = 'background:url(' + url + ');background-size:50px 50px;width:50px;height:50px'
     }
     element.setAttribute('class', 'button')
     cubeButtonBox.appendChild(element);
@@ -355,7 +373,7 @@ var isCtrlDown = false
 
 function onDocumentMouseDown(event) {
     if (!isCtrlDown) return;
-    if (!currentCube==null) return;
+    if (!currentCube == null) return;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
@@ -373,14 +391,14 @@ function onDocumentMouseDown(event) {
         } else {
             // add a creature
             console.log(currentCube)
-            if(creature_list.indexOf(currentCube) != -1){
+            if (creature_list.indexOf(currentCube) != -1) {
                 console.log("creature")
-                var p = new THREE.Vector3(0,0,0);
+                var p = new THREE.Vector3(0, 0, 0);
                 p.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
                 p.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-                creature_manager.add_creature(currentCube,p.x,p.y,p.z);
+                creature_manager.add_creature(currentCube, p.x, p.y, p.z);
                 return
-            }else{
+            } else {
                 // add a cube
                 var voxel = cube_manager.getCube(currentCube);
                 voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
@@ -420,10 +438,10 @@ function render() {
 }
 
 
-document.addEventListener('mousemove', onDocumentMouseMove, false);//鼠标移动事件
-document.addEventListener('pointerdown', onDocumentMouseDown, false);//鼠标点击事件
-document.addEventListener('keydown', onDocumentKeyDown, false);//对shift按键的控制
-document.addEventListener('keyup', onDocumentKeyUp, false);//对shift按键的控制
+document.addEventListener('mousemove', onDocumentMouseMove, false);
+document.addEventListener('pointerdown', onDocumentMouseDown, false);
+document.addEventListener('keydown', onDocumentKeyDown, false);
+document.addEventListener('keyup', onDocumentKeyUp, false);
 console.log("done");
 render()
 buildGui()
