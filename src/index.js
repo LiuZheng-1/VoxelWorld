@@ -6,6 +6,7 @@ import { skybox } from './objs/skybox.js'
 import { jsonLoader } from './utils/json_loader'
 import { CUBE_MANAGER } from './cubes/index'
 import { WATER_MANAGER } from './cubes/water_cube'
+import { CREATURE_MANAGER } from './creatures/index'
 
 var originCubePosition = {
     "brick": [], "water": [], "grass": [], "door": [], "glass": [], "dirt": [], "wood": [], "sand": [], "stone": []
@@ -45,7 +46,7 @@ var scene = new THREE.Scene();
 var ratio = window.innerWidth / window.innerHeight;
 var renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
-
+var clock = new THREE.Clock();
 
 var controls = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -61,9 +62,11 @@ const water_params = {
     cube_color: "#20a8e6",
     cube_opacity: 0.5,
 };
-var cube_list  =cube_manager.getCubeList()
-var water_manager = new WATER_MANAGER(scene, water_params);
 
+var water_manager = new WATER_MANAGER(scene, water_params);
+var creature_manager = new CREATURE_MANAGER(scene, clock);
+var cube_list  =cube_manager.getCubeList()
+var creature_list  =creature_manager.get_creature_list()
 
 
 var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
@@ -119,13 +122,6 @@ cube_list.forEach(cube_name => {
     element.onclick = () => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
-    // const url = textured_cube_setting[cube_name]
-    // console.log(cube_name, url);
-    // if (cube_name === 'water' || cube_name === 'glass') {
-    //     element.style = 'background:' + url.color
-    // } else {
-    //     element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
-    // }
     var url = cube_manager.getTexture(cube_name);
     if(url==null){
         element.style = 'background: #cccccc'
@@ -136,6 +132,20 @@ cube_list.forEach(cube_name => {
     }
     element.setAttribute('class', 'button')
     cubeButtonBox.appendChild(element);
+});
+
+var creatureButtonBox = document.createElement('div');
+creatureButtonBox.setAttribute('class', 'creature_box')
+document.body.appendChild(creatureButtonBox)
+creature_list.forEach(creature_name => {
+    var element = document.createElement('button');
+    element.id = creature_name;
+    element.innerHTML = creature_name;
+    element.onclick = () => {
+        currentCube = creature_name; // 
+    }
+    element.setAttribute('class', 'button')
+    creatureButtonBox.appendChild(element);
 });
 
 
@@ -360,17 +370,29 @@ function onDocumentMouseDown(event) {
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
-            var voxel = cube_manager.getCube(currentCube);
-            voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
-            voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-            voxel.receiveShadow = voxel.position.y === 0.5 ? true : false
-            voxel.castShadow = voxel.position.y === 0.5 ? false : true
-            voxel.name = currentCube
-            console.log(voxel.position);
-            scene.add(voxel);
-            objects.push(voxel);
-            if (currentCube == "water") {
-                water_manager.add_water(voxel.position.x, voxel.position.y, voxel.position.z);
+            // add a creature
+            console.log(currentCube)
+            if(creature_list.indexOf(currentCube) != -1){
+                console.log("creature")
+                var p = new THREE.Vector3(0,0,0);
+                p.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
+                p.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
+                creature_manager.add_creature(currentCube,p.x,p.y,p.z);
+                return
+            }else{
+                // add a cube
+                var voxel = cube_manager.getCube(currentCube);
+                voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
+                voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
+                voxel.receiveShadow = voxel.position.y === 0.5 ? true : false
+                voxel.castShadow = voxel.position.y === 0.5 ? false : true
+                voxel.name = currentCube
+                // console.log(voxel.position);
+                scene.add(voxel);
+                objects.push(voxel);
+                if (currentCube == "water") {
+                    water_manager.add_water(voxel.position.x, voxel.position.y, voxel.position.z);
+                }
             }
         }
         render();
