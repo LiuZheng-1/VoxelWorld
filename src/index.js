@@ -154,7 +154,7 @@ cube_list.forEach(cube_name => {
 
 var creatureButtonBox = document.createElement('div');
 creatureButtonBox.setAttribute('class', 'creature_box')
-document.body.appendChild(creatureButtonBox)
+cubeButtonBox.appendChild(creatureButtonBox)
 creature_list.forEach(creature_name => {
     var element = document.createElement('button');
     element.id = creature_name;
