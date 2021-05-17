@@ -5,10 +5,14 @@ import {WaterCube} from './water_cube'
 
 // setting of cubes have no specific properity
 const textured_cube_setting = {
-    'brick':{ texture:"../dist/textures/brick/brick_diffuse.jpg"},
-    "water":{ color:"#20a8e6",opacity:0},//占个位置不显示
-    'grass':{ texture:'../dist/textures/grass/grass.jpg'},
-    'glass':{ color:"#ffffff",opacity:0.3},
+    'brick': { texture: "../dist/textures/brick/brick_diffuse.jpg" },
+    "water": { color: "#20a8e6", opacity: 0 },//占个位置不显示
+    'grass': { texture: '../dist/textures/grass/grass.jpg' },
+    'glass': { color: "#ffffff", opacity: 0.3 },
+    'dirt': { texture: "../dist/textures/minecraft_dirt.jpg" },
+    'wood': { texture: "../dist/textures/wood.jpg" },
+    'sand': { texture: "../dist/textures/minecraft_sand.jpg" },
+    'stone': { texture: "../dist/textures/minecraft_stone.jpg" },
 }
 
 //MC door
@@ -33,14 +37,14 @@ export function MC_Material_Loader(name,dir,has_s=false,has_n=true,iscube=false,
         }
         mat.map = cubeTextureLoader.load( [
             name+side+".png", name+side+".png",
-            name+"_top.png", name+"_bottom.png",
+            name+"_top.png", name+"_top.png",
             name+".png", name+".png"
         ] );
         // normal
         if(has_n==true){
             mat.normal = cubeTextureLoader.load( [
                 name+side+"_n.png", name+side+"_n.png",
-                name+"_top_n.png", name+"_bottom_n.png",
+                name+"_top_n.png", name+"_top_n.png",
                 name+"_n.png", name+"_n.png"
             ] );
         }
@@ -48,7 +52,7 @@ export function MC_Material_Loader(name,dir,has_s=false,has_n=true,iscube=false,
         if(has_s==true){
             mat.specularMap = cubeTextureLoader.load( [
                 name+side+"_s.png", name+side+"_s.png",
-                name+"_top_s.png", name+"_bottom_s.png",
+                name+"_top_s.png", name+"_top_s.png",
                 name+"_s.png", name+"_s.png"
             ] );
         }
@@ -102,7 +106,7 @@ export class CUBE_MANAGER {
         mat.color = new THREE.Color("#11dd11")
         this.addCube("oak_leaves",this.box_geo,mat)
 
-        var mat = MC_Material_Loader("sandstone","block",true);
+        var mat = MC_Material_Loader("sandstone","block",true,true);
         this.addCube("sandstone",this.box_geo,mat);
 
         var mat = MC_Material_Loader("andesite","block",true);
@@ -110,6 +114,12 @@ export class CUBE_MANAGER {
 
         var mat = MC_Material_Loader("jungle_planks","block",true);
         this.addCube("jungle_planks",this.box_geo,mat);
+
+        var mat = MC_Material_Loader("bedrock","block",true);
+        this.addCube("bedrock",this.box_geo,mat);
+
+        // var mat = MC_Material_Loader("dark_ork_log","block",true,true);
+        // this.addCube("bedrock",this.box_geo,mat);
 
 
     }
