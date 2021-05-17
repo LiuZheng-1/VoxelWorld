@@ -52,7 +52,7 @@ export class WATER_MANAGER {
         return geo
     }
     add_water(x, y, z) {
-        console.log(x, y, z)
+        // console.log(x, y, z)
         var geo = this.make_geo(x, y, z);
         this.water_dict[this.hash_xyz(x, y, z)] = [x, y, z]
 

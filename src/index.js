@@ -61,7 +61,7 @@ const water_params = {
     cube_color: "#20a8e6",
     cube_opacity: 0.5,
 };
-var cube_list  =cube_manager.getCubeList()
+var cube_list = cube_manager.getCubeList()
 var water_manager = new WATER_MANAGER(scene, water_params);
 
 
@@ -111,11 +111,30 @@ var cubeButtonBox = document.createElement('div');
 cubeButtonBox.setAttribute('class', 'cube_box')
 document.body.appendChild(cubeButtonBox)
 
+var operation = document.createElement('div')
+var str = ['add: ctrl + click', 'delete: ctrl + shift + click', 'Group 30:', 'Zheng Liu    13066384', 'Miaolin Yu    13501150', 'Tianyi Gu	  13679408', 'Jingyi Wu    99151300']
+str.forEach(s => {
+    var strDiv = document.createElement('div')
+    strDiv.innerHTML = s
+    operation.appendChild(strDiv)
+}
+)
+
+// Zheng Liu             13066384
+// Miaolin Yu           13501150
+// Tianyi Gu	       13679408
+operation.setAttribute('class', 'operation')
+document.body.append(operation)
+
 // 加载cube的选项按钮
 cube_list.forEach(cube_name => {
     var element = document.createElement('button');
     element.id = cube_name;
-    element.innerHTML = cube_name;
+    var div = document.createElement('div')
+    div.innerHTML = cube_name
+    div.setAttribute('class', 'cube_name')
+    element.appendChild(div)
+    // element.innerHTML = cube_name;
     element.onclick = () => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
@@ -127,12 +146,12 @@ cube_list.forEach(cube_name => {
     //     element.style = 'background:url(' + url.texture + ');background-size:50px 50px'
     // }
     var url = cube_manager.getTexture(cube_name);
-    if(url==null){
-        element.style = 'background: #cccccc'
-    }else if(url[0]=="#"){// color
-        element.style = 'background:' + url
-    }else{
-        element.style = 'background:url(' + url + ');background-size:50px 50px'
+    if (url == null) {
+        element.style = 'background: #cccccc;width:50px;height:50px'
+    } else if (url[0] == "#") {// color
+        element.style = 'background:' + url + ';width:50px;height:50px'
+    } else {
+        element.style = 'background:url(' + url + ');background-size:50px 50px;width:50px;height:50px'
     }
     element.setAttribute('class', 'button')
     cubeButtonBox.appendChild(element);
@@ -344,7 +363,7 @@ var isCtrlDown = false
 
 function onDocumentMouseDown(event) {
     if (!isCtrlDown) return;
-    if (!currentCube==null) return;
+    if (!currentCube == null) return;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
