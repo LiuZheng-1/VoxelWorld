@@ -126,7 +126,6 @@ str.forEach(s => {
 operation.setAttribute('class', 'operation')
 document.body.append(operation)
 
-// 加载cube的选项按钮
 cube_list.forEach(cube_name => {
     var element = document.createElement('button');
     element.id = cube_name;
@@ -416,10 +415,10 @@ function render() {
 }
 
 
-document.addEventListener('mousemove', onDocumentMouseMove, false);//鼠标移动事件
-document.addEventListener('pointerdown', onDocumentMouseDown, false);//鼠标点击事件
-document.addEventListener('keydown', onDocumentKeyDown, false);//对shift按键的控制
-document.addEventListener('keyup', onDocumentKeyUp, false);//对shift按键的控制
+document.addEventListener('mousemove', onDocumentMouseMove, false);
+document.addEventListener('pointerdown', onDocumentMouseDown, false);
+document.addEventListener('keydown', onDocumentKeyDown, false);
+document.addEventListener('keyup', onDocumentKeyUp, false);
 console.log("done");
 render()
 buildGui()
