@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Cat } from './cat';
 import {Seagull} from './seagul'
 export class CREATURE_MANAGER {
     constructor(scene,clock) {
@@ -6,15 +7,7 @@ export class CREATURE_MANAGER {
         this.clock = clock;
         this.obj_dict = {};
         this.last_id = 0;
-        this.creature_list = ['seagul']
-
-        var cube_material = new THREE.MeshBasicMaterial({
-            color: "#ffffff",
-            transparent: true,
-            opacity: 0.5
-        });
-        var cube_geometry = new THREE.BoxGeometry(1, 1, 1);
-        this.cube = new THREE.Mesh(cube_geometry, cube_material);
+        this.creature_list = ['seagul','cat']
     }
     update_all(){
         var interval = this.clock.getDelta()
@@ -27,27 +20,27 @@ export class CREATURE_MANAGER {
     get_creature_list(){
         return this.creature_list;
     }
-    add_creature(name,x,y,z){
+    add_obj(id,pos,obj,mixer){
+        obj.creature_id = id;
+        obj.position.add(pos);
+        this.obj_dict[id]["mixer"] = mixer;
+        this.scene.add(obj)
+    }
+    add_creature(name,pos){
         var creature_id = this.last_id;
         this.last_id+=1;
         this.obj_dict[creature_id]={}
-        this.cube.position.x = x;
-        this.cube.position.y = y;
-        this.cube.position.z = z;
-        this.scene.add(this.cube)
         switch(name){
             case "seagul":
                 Seagull((obj,mixer)=>{
-                    obj.creature_id = creature_id;
-                    obj.position.x = x;
-                    obj.position.y = y;
-                    obj.position.z = z;
-                    
-                    this.obj_dict[creature_id]["mixer"] = mixer;
-                    this.scene.add(obj)
-                    console.log("log seagul success")
-                    this.scene.remove(this.cube);
-                })
+                    this.add_obj(creature_id, pos,obj,mixer)
+                });
+                break;
+            case "cat":
+                Cat((obj,mixer)=>{
+                    this.add_obj(creature_id, pos,obj,mixer)
+                });
+                break;
         }
         
     }
