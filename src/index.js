@@ -365,6 +365,8 @@ function onDocumentMouseMove(event) {
 var isCtrlDown = false
 
 function onDocumentMouseDown(event) {
+    console.log(event.button);
+    if (event.button !== 0) return
     if (!isCtrlDown) return;
     if (!currentCube == null) return;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
