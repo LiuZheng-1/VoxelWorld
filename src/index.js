@@ -127,7 +127,10 @@ document.body.append(operation)
 cube_list.forEach(cube_name => {
     var element = document.createElement('button');
     element.id = cube_name;
-    element.innerHTML = cube_name;
+    var div = document.createElement('div')
+    div.innerHTML = cube_name
+    div.setAttribute('class', 'cube_name')
+    element.appendChild(div)
     element.onclick = () => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
