@@ -24,6 +24,7 @@ export class CREATURE_MANAGER {
         obj.creature_id = id;
         obj.position.add(pos);
         this.obj_dict[id]["mixer"] = mixer;
+        this.obj_dict[id]["mesh"] = obj;
         this.scene.add(obj)
     }
     add_creature(name,pos){
@@ -42,6 +43,10 @@ export class CREATURE_MANAGER {
                 });
                 break;
         }
-        
+        return creature_id;
+    }
+    remove_obj(id){
+        this.scene.remove(this.obj_dict[id]["mesh"]);
+        delete this.obj_dict[id];
     }
 }

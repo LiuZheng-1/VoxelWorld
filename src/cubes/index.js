@@ -7,6 +7,7 @@ import { WaterCube } from './water_cube'
 const textured_cube_setting = {
     'brick': { texture: "../dist/textures/brick/brick_diffuse.jpg" },
     "water": { color: "#20a8e6", opacity: 0 },//占个位置不显示
+    "creature": { color: "#20a8e6", opacity: 0 },//占个位置不显示
     'grass': { texture: '../dist/textures/grass/grass.jpg' },
     'glass': { color: "#ffffff", opacity: 0.3 },
     'dirt': { texture: "../dist/textures/minecraft_dirt.jpg" },

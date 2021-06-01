@@ -352,7 +352,6 @@ function onDocumentMouseMove(event) {
 }
 
 var isCtrlDown = false
-
 function onDocumentMouseDown(event) {
     if (!isCtrlDown) return;
     if (!currentCube==null) return;
@@ -362,38 +361,46 @@ function onDocumentMouseDown(event) {
     if (intersects.length > 0) {
         var intersect = intersects[0];
         if (isShiftDown) {
+            console.log(intersect.object)
             if (intersect.object != ground) {
                 if (intersect.object.name == "water") {
                     let p = intersect.object.position;
                     water_manager.remove(p.x, p.y, p.z);
                 }
+                if (intersect.object.name == "creature") {
+                    
+                    creature_manager.remove_obj(intersect.object.creature_id);
+                }
                 scene.remove(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
             }
         } else {
+            var voxel;
             // add a creature
-            console.log(currentCube)
             if(creature_list.indexOf(currentCube) != -1){
                 console.log("creature")
                 var p = new THREE.Vector3(0,0,0);
                 p.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
                 p.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-                creature_manager.add_creature(currentCube,p);
-                return
+                var creature_id = creature_manager.add_creature(currentCube,p);
+                voxel = cube_manager.getCube("creature");
+                voxel.creature_id = creature_id;
             }else{
                 // add a cube
                 var voxel = cube_manager.getCube(currentCube);
-                voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
-                voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-                voxel.receiveShadow = voxel.position.y === 0.5 ? true : false
-                voxel.castShadow = voxel.position.y === 0.5 ? false : true
-                voxel.name = currentCube
-                // console.log(voxel.position);
-                scene.add(voxel);
-                objects.push(voxel);
-                if (currentCube == "water") {
-                    water_manager.add_water(voxel.position.x, voxel.position.y, voxel.position.z);
-                }
+            }
+            
+
+            voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
+            voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
+            voxel.receiveShadow = voxel.position.y === 0.5 ? true : false
+            voxel.castShadow = voxel.position.y === 0.5 ? false : true
+            // voxel.name = currentCube
+            // console.log(voxel.position);
+            scene.add(voxel);
+            objects.push(voxel);
+            if (currentCube == "water") {
+                water_manager.add_water(voxel.position.x, voxel.position.y, voxel.position.z);
             }
         }
         render();
