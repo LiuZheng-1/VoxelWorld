@@ -18,19 +18,9 @@ var mouse = new THREE.Vector2();
 var objects = [];
 var isShiftDown = false
 var gui
+var copyObj = {}
 
 var cube_list = ["brick", "water", "grass", "door", "glass", "dirt", "wood", "sand", "stone"]
-const textured_cube_setting = {
-    'brick': { texture: "../dist/textures/brick/brick_diffuse.jpg" },
-    "water": { color: "#20a8e6", opacity: 0 },//占个位置不显示
-    'grass': { texture: '../dist/textures/grass/grass.jpg' },
-    'glass': { color: "#ffffff", opacity: 0.3 },
-    'dirt': { texture: "../dist/textures/minecraft_dirt.jpg" },
-    'wood': { texture: "../dist/textures/wood.jpg" },
-    'sand': { texture: "../dist/textures/minecraft_sand.jpg" },
-    'stone': { texture: "../dist/textures/minecraft_stone.jpg" },
-    'door': { texture: "../dist/textures/minecraft/door_spruce_lower.png" }
-}
 
 var currentCube = null
 var currentFile = null
@@ -49,7 +39,14 @@ renderer.shadowMap.enabled = true;
 var clock = new THREE.Clock();
 
 var controls = new OrbitControls(camera, renderer.domElement);
+// controls.enablePan = false;
+controls.enableKeys = true
+controls.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 }
 renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.style.width = '100%'
+document.body.style.height = '100%'
+renderer.domElement.style.width = '100%'
+renderer.domElement.style.height = '100%'
 document.body.appendChild(renderer.domElement);
 renderer.setClearColor(0xCCCCCC, 1.0);
 
@@ -65,8 +62,8 @@ const water_params = {
 var water_manager = new WATER_MANAGER(scene, water_params);
 var creature_manager = new CREATURE_MANAGER(scene, clock);
 
-var cube_list  =cube_manager.getCubeList()
-var creature_list  =creature_manager.get_creature_list()
+var cube_list = cube_manager.getCubeList()
+var creature_list = creature_manager.get_creature_list()
 
 
 var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
@@ -123,11 +120,11 @@ cube_list.forEach(cube_name => {
         currentCube = cube_name; // 设置当前的名称以允许cube_manager.getCube(currentCube)
     }
     var url = cube_manager.getTexture(cube_name);
-    if(url==null){
+    if (url == null) {
         element.style = 'background: #cccccc'
-    }else if(url[0]=="#"){// color
+    } else if (url[0] == "#") {// color
         element.style = 'background:' + url
-    }else{
+    } else {
         element.style = 'background:url(' + url + ');background-size:50px 50px'
     }
     element.setAttribute('class', 'button')
@@ -136,7 +133,7 @@ cube_list.forEach(cube_name => {
 
 var creatureButtonBox = document.createElement('div');
 creatureButtonBox.setAttribute('class', 'creature_box')
-document.body.appendChild(creatureButtonBox)
+cubeButtonBox.appendChild(creatureButtonBox)
 creature_list.forEach(creature_name => {
     var element = document.createElement('button');
     element.id = creature_name;
@@ -327,9 +324,11 @@ var load_achieve = (achieve) => {
             if (cube_list[i] == "water") {
                 water_manager.add_water(x, y, z);
             }
+            copyObj[x + '_' + y + '_' + z] = cube.name
         })
     }
     console.log("load success")
+    console.log(copyObj);
 }
 
 jsonLoader("./json_archives/saved_map.json", (json) => {
@@ -352,9 +351,10 @@ function onDocumentMouseMove(event) {
 }
 
 var isCtrlDown = false
+
 function onDocumentMouseDown(event) {
     if (!isCtrlDown) return;
-    if (!currentCube==null) return;
+    if (!currentCube == null) return;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(objects);
@@ -368,7 +368,7 @@ function onDocumentMouseDown(event) {
                     water_manager.remove(p.x, p.y, p.z);
                 }
                 if (intersect.object.name == "creature") {
-                    
+
                     creature_manager.remove_obj(intersect.object.creature_id);
                 }
                 scene.remove(intersect.object);
@@ -377,19 +377,19 @@ function onDocumentMouseDown(event) {
         } else {
             var voxel;
             // add a creature
-            if(creature_list.indexOf(currentCube) != -1){
+            if (creature_list.indexOf(currentCube) != -1) {
                 console.log("creature")
-                var p = new THREE.Vector3(0,0,0);
+                var p = new THREE.Vector3(0, 0, 0);
                 p.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
                 p.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
-                var creature_id = creature_manager.add_creature(currentCube,p);
+                var creature_id = creature_manager.add_creature(currentCube, p);
                 voxel = cube_manager.getCube("creature");
                 voxel.creature_id = creature_id;
-            }else{
+            } else {
                 // add a cube
                 var voxel = cube_manager.getCube(currentCube);
             }
-            
+
 
             voxel.position.copy(intersect.point).add(intersect.face.normal.multiplyScalar(0.5));
             voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(0.5);
