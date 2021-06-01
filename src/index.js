@@ -18,19 +18,9 @@ var mouse = new THREE.Vector2();
 var objects = [];
 var isShiftDown = false
 var gui
+var copyObj = {}
 
 var cube_list = ["brick", "water", "grass", "door", "glass", "dirt", "wood", "sand", "stone"]
-const textured_cube_setting = {
-    'brick': { texture: "../dist/textures/brick/brick_diffuse.jpg" },
-    "water": { color: "#20a8e6", opacity: 0 },//占个位置不显示
-    'grass': { texture: '../dist/textures/grass/grass.jpg' },
-    'glass': { color: "#ffffff", opacity: 0.3 },
-    'dirt': { texture: "../dist/textures/minecraft_dirt.jpg" },
-    'wood': { texture: "../dist/textures/wood.jpg" },
-    'sand': { texture: "../dist/textures/minecraft_sand.jpg" },
-    'stone': { texture: "../dist/textures/minecraft_stone.jpg" },
-    'door': { texture: "../dist/textures/minecraft/door_spruce_lower.png" }
-}
 
 var currentCube = null
 var currentFile = null
@@ -49,7 +39,14 @@ renderer.shadowMap.enabled = true;
 var clock = new THREE.Clock();
 
 var controls = new OrbitControls(camera, renderer.domElement);
+// controls.enablePan = false;
+controls.enableKeys = true
+controls.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 }
 renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.style.width = '100%'
+document.body.style.height = '100%'
+renderer.domElement.style.width = '100%'
+renderer.domElement.style.height = '100%'
 document.body.appendChild(renderer.domElement);
 renderer.setClearColor(0xCCCCCC, 1.0);
 
@@ -345,9 +342,11 @@ var load_achieve = (achieve) => {
             if (cube_list[i] == "water") {
                 water_manager.add_water(x, y, z);
             }
+            copyObj[x + '_' + y + '_' + z] = cube.name
         })
     }
     console.log("load success")
+    console.log(copyObj);
 }
 
 jsonLoader("./json_archives/saved_map.json", (json) => {
@@ -371,6 +370,15 @@ function onDocumentMouseMove(event) {
 
 var isCtrlDown = false
 
+const test = []
+
+const btn = document.createElement('button')
+btn.innerHTML = 'test'
+btn.onclick = () => {
+    const rc = new THREE.Raycaster()
+
+}
+
 function onDocumentMouseDown(event) {
     if (!isCtrlDown) return;
     if (!currentCube == null) return;
@@ -387,6 +395,7 @@ function onDocumentMouseDown(event) {
                 }
                 scene.remove(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
+                test.push(intersect.object)
             }
         } else {
             // add a creature
