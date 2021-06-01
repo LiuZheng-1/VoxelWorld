@@ -111,6 +111,18 @@ var cubeButtonBox = document.createElement('div');
 cubeButtonBox.setAttribute('class', 'cube_box')
 document.body.appendChild(cubeButtonBox)
 
+var operation = document.createElement('div')
+var str = ['add: ctrl + click', 'delete: ctrl + shift + click', 'Group 30:', 'Zheng Liu    13066384', 'Miaolin Yu    13501150', 'Tianyi Gu	  13679408', 'Jingyi Wu    99151300']
+str.forEach(s => {
+    var strDiv = document.createElement('div')
+    strDiv.innerHTML = s
+    operation.appendChild(strDiv)
+}
+)
+
+operation.setAttribute('class', 'operation')
+document.body.append(operation)
+
 // 加载cube的选项按钮
 cube_list.forEach(cube_name => {
     var element = document.createElement('button');
